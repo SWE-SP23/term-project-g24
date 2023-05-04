@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+// import "./css/Login.css"
 function Signup(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ function Signup(props) {
       </form>
       <p>
         Already have an account?{" "}
-        <a href="#" onClick={props.toggleForm}>
+        <a href="/Login">
           Sign in
         </a>
       </p>

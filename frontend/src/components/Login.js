@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./css/Login.css"
-
+import "./css/Theme.css"
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +32,7 @@ function Login(props) {
       </form>
       <p>
         New user?{" "}
-        <a href="#" onClick={props.toggleForm}>
+        <a href="/Signup">
           Create a new account
         </a>
       </p>
