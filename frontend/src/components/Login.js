@@ -10,7 +10,7 @@ const Login = () => {
 const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-    const response = await axios.post('/auth/sign_in', {
+    const response = await axios.post('http://localhost:4000/auth/sign_in', {
       email,
       password,
     });
@@ -26,9 +26,9 @@ const handleSubmit = async(event) => {
   };
 
   return (
-    <div class = "login-form">
+    <div className = "login-form">
       {/* <h1>Login</h1> */}
-      <div class = "form">
+      <div className = "form">
       <form onSubmit={handleSubmit}>
         <input
           type="email"

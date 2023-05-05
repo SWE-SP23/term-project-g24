@@ -3,10 +3,10 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT 
 
-
   User = require('./Models/UserModel'),
   bodyParser = require('body-parser'),
-  jsonwebtoken = require("jsonwebtoken");
+  jsonwebtoken = require("jsonwebtoken"),
+  cors = require('cors');
 
 const mongoose = require('mongoose');
 
@@ -21,6 +21,8 @@ mongoose.connect( mongoURI ).then(function(){
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use(function(req, res, next) {
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
@@ -38,7 +40,7 @@ var routes = require('./routes/user_routes');
 routes(app);
 
 app.use(function(req, res) {
-  res.status(404).send({ url: req.originalUrl + ' not found' })
+  res.status(404).send({ url: req.originalUrl + ' not foundAdelyasser' })
 });
 
 app.listen(port);

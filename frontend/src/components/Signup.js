@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 // import "./css/Login.css"
 function Signup(props) {
-  const [name, setName] = useState("");
+  const [fullName, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,8 +10,8 @@ function Signup(props) {
 const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-    const response = await axios.post('/auth/register', {
-      name,
+    const response = await axios.post('http://localhost:4000/auth/register', {
+      fullName,
       email,
       password,
     });
@@ -22,19 +22,19 @@ const handleSubmit = async(event) => {
     console.error('Error:', error);
     // Handle the error here, such as displaying an error message to the user
   }
-    // Send name, email, and password to backend API for user creation
-    console.log(`Name: ${name}, Email: ${email}, Password: ${password}`);
+    // Send fullName, email, and password to backend API for user creation
+    console.log(`Name: ${fullName}, Email: ${email}, Password: ${password}`);
   };
 
 
   return (
-    <div class = "login-form">
-        <div class= "form">
+    <div className = "login-form">
+        <div className= "form">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Name"
-          value={name}
+          value={fullName}
           onChange={(event) => setName(event.target.value)}
         />
         <input
