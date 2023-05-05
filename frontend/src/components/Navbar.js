@@ -1,37 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./css/Navbar.css";
+import logo from "./Assets/logo final.png"
 
 function Navbar() {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    if (searchTerm.trim() !== "") {
-      window.location.href = `/search?q=${searchTerm}`;
-      setSearchTerm("");
-    }
-  };
 
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
-        Website Name
+        <img src={logo} alt="Laura's Library" style={{ width: "95px", height: "61px" }}></img>
       </Link>
-      <form onSubmit={handleSearch} className="navbar-search">
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-        <button type="submit" className="navbar-search-btn">
-          <i className="fas fa-search"></i>
-        </button>
-      </form>
-      <Link to="/login" className="navbar-btn">
-        Sign in
-      </Link>
+      <div className="navbar-btn-box">
+        <Link to="/" className="navbar-btn">
+          Home
+        </Link>
+        <Link to="/search" className="navbar-btn">
+          Library
+        </Link>
+        <Link to="/" className="navbar-btn">
+          Tips
+        </Link>
+        <Link to="/login" className="navbar-btn">
+          Sign in
+        </Link>
+      </div>
+
     </nav>
   );
 }

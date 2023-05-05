@@ -2,7 +2,7 @@
 
 body {
     background: #fff;
-    font-family: "Roboto", sans-serif;
+    font-family: "Campton", sans-serif;
     color: #333;
   }
   
@@ -14,6 +14,20 @@ body {
     color: #2469de;
     text-decoration: none;
   }
+  .image-button{
+    border-radius: 5px;
+    background-color: #246c8e   ;
+    color: white;
+    font-family: 'Campton', sans-serif;
+    font-weight: bolder;
+    font-style: italic;
+    font-size: 24px;
+    padding: 10px 60px;
+    position: absolute;
+    top: 58%;
+    left: 8%;
+    /* transform: translate(70%, 50%);  */
+ }
   
   ul {
     list-style: none;

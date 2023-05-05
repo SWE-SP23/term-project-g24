@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #246c8e   ;
 }
 
 .form {
@@ -43,7 +44,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #2469de;
+  background: #eb594c;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -102,9 +103,7 @@
   color: #EF3B3A;
 }
 body {
-  background: #2469de; /* fallback for old browsers */
-  background: rgb(36, 105, 222);
-  background: linear-gradient(90deg,rgba(36,105,222,1) 0%, rgba(108,95,197,1) 50%);
+  background: #ffffff  ; /* fallback for old browsers */
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

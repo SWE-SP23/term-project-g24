@@ -8,6 +8,7 @@ import Book from "./components/Book";
 import Author from "./components/Author";
 import Search from "./components/Search";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   const [showLogin, setShowLogin] = useState(true);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login toggleForm={toggleForm} />} />
           <Route path="/signup" element={<Signup toggleForm={toggleForm} />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
