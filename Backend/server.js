@@ -1,9 +1,11 @@
+
 require('dotenv').config()
 var express = require('express'),
   app = express(),
   port = process.env.PORT 
 
   User = require('./Models/UserModel'),
+  book = require('./Models/bookModel'),
   bodyParser = require('body-parser'),
   jsonwebtoken = require("jsonwebtoken"),
   cors = require('cors');
@@ -38,7 +40,8 @@ app.use(function(req, res, next) {
 });
 var routes = require('./routes/user_routes');
 routes(app);
-
+var routes = require('./routes/Userpage_routes');
+routes(app);
 app.use(function(req, res) {
   res.status(404).send({ url: req.originalUrl + ' not foundAdelyasser' })
 });
