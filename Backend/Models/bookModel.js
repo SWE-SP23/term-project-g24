@@ -2,12 +2,6 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-bcrypt = require('bcrypt')
-
-
-/**
- * User Schema
- */
 const bookSchema = new Schema({
   cover: {
     type: String,
@@ -37,5 +31,7 @@ const bookSchema = new Schema({
   }]
 })
 
-const bookModel = mongoose.model('Book', bookSchema);
-module.exports = bookModel;
+mongoose.model('book', bookSchema);
+const Book = mongoose.model('Book', bookSchema);
+
+module.exports = Book;
