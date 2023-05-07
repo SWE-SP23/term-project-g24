@@ -7,6 +7,7 @@ function Home() {
     <div>
       <img src={graphic} alt = "Books" style={{ width: "1280px", height: "720px" }}></img>
       <Link to="/search" class="image-button" >Explore</Link>
+      
       </div>
   );
 }
