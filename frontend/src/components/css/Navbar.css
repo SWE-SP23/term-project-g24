@@ -1,52 +1,52 @@
 body {
-    font-family: "Campton", sans-serif;
-    margin: 0; /* remove margin around body */
-  }
-  
-  .navbar {
-    position: fixed;
-    top: 2%;
-    left: 0;
-    right: 0;
-    display: inline-flexbox;
-    font-family: "Campton", sans-serif;
-    align-items: center;
-    background: transparent;
-    padding: 10px;
-    border-radius: 0px;
-  }
-  
-  .navbar-brand {
-    display: inline-flexbox;
-    float: left;
-    margin-left: 30px;
-    border: none;
-  }
-  
-  .navbar-btn-box {
-    
-    display: inline-flexbox;
-    float: right;
-    margin-top: 2%;
-    /* transform: translateY(100%); */
-  }
-  
-  .navbar-btn {
-    background-color: transparent;
-    color: #246c8e;
-    font-size: larger;
-    border-radius: 10px;
-    padding: 20px 40px;
-    margin: 20px 40px;
-    text-decoration: none;
-    font-family: "Campton", sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    cursor: pointer;
-    text-transform: none;
-  }
-  
-  .navbar-btn:hover {
-    background-color: #eee;
-    text-decoration: none;
-  }
+  font-family: "Campton", sans-serif;
+  margin: 0; /* remove margin around body */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background-color: #fff; /* change the background color to white */
+  display: inline-flexbox;
+  font-family: "Campton", sans-serif;
+  align-items: center;
+  padding: 10px;
+  border-radius: 0px;
+}
+
+.navbar-brand {
+  display: inline-flexbox;
+  float: left;
+  margin-left: 30px;
+  border: none;
+}
+
+.navbar-btn-box {
+  display: inline-flexbox;
+  float: right;
+  margin-top: 2%;
+  /* transform: translateY(100%); */
+}
+
+.navbar-btn {
+  background-color: transparent;
+  color: #246c8e;
+  font-size: larger;
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin: 20px 40px;
+  text-decoration: none;
+  font-family: "Campton", sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: none;
+}
+
+.navbar-btn:hover {
+  background-color: #eee;
+  text-decoration: none;
+}

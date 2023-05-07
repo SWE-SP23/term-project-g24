@@ -17,7 +17,7 @@ function Navbar() {
         <Link to="/search" className="navbar-btn">
           Library
         </Link>
-        <Link to="/" className="navbar-btn">
+        <Link to="/tips" className="navbar-btn">
           Tips
         </Link>
         <Link to="/login" className="navbar-btn">

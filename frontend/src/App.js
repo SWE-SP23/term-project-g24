@@ -9,6 +9,7 @@ import Author from "./components/Author";
 import Search from "./components/Search";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Tips from "./components/Tips";
 
 function App() {
   const [showLogin, setShowLogin] = useState(true);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/book" element={<Book />} />
           <Route path="/author" element={<Author />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/tips" element={<Tips />} />
           <Route path="/login" element={<Login toggleForm={toggleForm} />} />
           <Route path="/signup" element={<Signup toggleForm={toggleForm} />} />
         </Routes>

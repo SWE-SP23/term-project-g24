@@ -5,14 +5,32 @@ body {
     font-family: "Campton", sans-serif;
     color: #333;
   }
+  h1{
+    font-family: "Campton", sans-serif;
+    color: #eb594c ;
+    font-size: 48px;
+    font-weight: bolder;
+    font-style: italic;
+    margin: 5% 5%;
+  }
   
   h1, h2, h3, h4, h5, h6 {
-    margin: 0;
+    margin:5% 5% ;
+  }
+  .text {
+    font-family: "Campton", sans-serif;
+    color: #246c8e;
+    font-size: 24px;
+    font-style: italic;
+    margin: 5% 5%;
   }
   
   a {
     color: #2469de;
     text-decoration: none;
+  }
+  li {
+    margin: 2%;
   }
   .image-button{
     border-radius: 5px;
@@ -236,7 +254,7 @@ body {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #2469de;
+    background: #246c8e;
     width: 100%;
     border: 0;
     padding: 15px;

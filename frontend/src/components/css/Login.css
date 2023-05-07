@@ -1,7 +1,3 @@
-
-
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-
 .login-page {
   display: flex;
   justify-content: center;
@@ -44,7 +40,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #eb594c;
+  background: #246c8e;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -103,8 +99,9 @@
   color: #EF3B3A;
 }
 body {
-  background: #ffffff  ; /* fallback for old browsers */
-  font-family: "Roboto", sans-serif;
+  background: #fff;
+  font-family: "Campton", sans-serif;
+  color: #333;  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
