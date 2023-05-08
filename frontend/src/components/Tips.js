@@ -18,6 +18,8 @@ function Tips() {
 		<li>Take breaks: Don't feel like you have to read for hours on end. Take breaks when you need them, and allow yourself time to digest and reflect on what you've read.</li>
 		<li>Enjoy the journey: Reading should be a pleasurable experience, so don't put too much pressure on yourself to finish a book quickly or understand everything perfectly. Enjoy the journey and let yourself get lost in the story.</li>
 	</ol>
+	<p><br /> <br /> <br /> <br /></p>
+
 </>
   );
 }
