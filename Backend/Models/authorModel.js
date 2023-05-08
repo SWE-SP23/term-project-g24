@@ -19,7 +19,7 @@ const authorSchema = new Schema({
   }]
 })
 
-mongoose.model('Authors', authorSchema);
-const Authors = mongoose.model('Authors', authorSchema);
+mongoose.model('author', authorSchema);
+const Author = mongoose.model('Author', authorSchema);
 
-module.exports = Authors;
+module.exports = Author;
