@@ -5,6 +5,6 @@ module.exports = function(app) {
         .post(userHandlers.get_all_books);
     app.route('/:userId/:bookId')
         .post(userHandlers.addToBooks);
-   app.route('/remove/:userId/:bookId')
+    app.route('/remove/:userId/:bookId')
         .post(userHandlers.removeFromBooks);
 };

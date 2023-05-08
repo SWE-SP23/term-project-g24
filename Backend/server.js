@@ -6,6 +6,7 @@ var express = require('express'),
 
   User = require('./Models/UserModel'),
   book = require('./Models/bookModel'),
+  Authors = require('./Models/authorModel'),
   bodyParser = require('body-parser'),
   jsonwebtoken = require("jsonwebtoken"),
   cors = require('cors');
@@ -40,10 +41,12 @@ app.use(function(req, res, next) {
 });
 var routes = require('./routes/user_routes');
 routes(app);
-var routes = require('./routes/Userpage_routes');
+var routes = require('./routes/userpage_routes');
+routes(app);
+var routes = require('./routes/display_routes');
 routes(app);
 app.use(function(req, res) {
-  res.status(404).send({ url: req.originalUrl + ' not foundAdelyasser' })
+  res.status(404).send({ url: req.originalUrl + ' not found' })
 });
 
 app.listen(port);
