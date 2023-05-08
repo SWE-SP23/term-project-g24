@@ -1,8 +1,10 @@
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh; /* add this line */
-  position: relative; /* add this line */
+div img {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+body{
+  min-height: 100%;
 }
 
 .content {
@@ -12,10 +14,6 @@ body {
 }
 
 .footer {
-  position: fixed; /* add this line */
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding-top: 20px;
   padding-bottom: 20px;
   background: #246c8e;

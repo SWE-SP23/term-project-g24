@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 // import "./css/Login.css"
 function Signup(props) {
   const [fullName, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
+
 
 
 const handleSubmit = async(event) => {
@@ -16,9 +20,13 @@ const handleSubmit = async(event) => {
       password,
     });
 
+
     console.log(response.data);
+    navigate('/login');
+
     // Do something with the response data, such as updating the state of your React component
   } catch (error) {
+    document.getElementById("error").innerHTML = "Email already exists";
     console.error('Error:', error);
     // Handle the error here, such as displaying an error message to the user
   }
@@ -57,7 +65,10 @@ const handleSubmit = async(event) => {
           Sign in
         </a>
       </p>
+      <p id="error"></p>
       </div>
+      <p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
+
     </div>
   );
 };

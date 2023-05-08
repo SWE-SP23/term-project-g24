@@ -32,6 +32,26 @@ body {
   li {
     margin: 2%;
   }
+  .bookContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5% 25%;
+
+  }
+  .bookType{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5% 0%;
+    background-color: #246c8e;
+    border-radius: 5px;
+    padding: 5% 5%;
+    color: white;
+  }
+
   .image-button{
     border-radius: 5px;
     background-color: #246c8e   ;
