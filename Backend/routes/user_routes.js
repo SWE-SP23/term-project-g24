@@ -5,6 +5,8 @@ module.exports = function(app) {
         .post(userHandlers.loginRequired, userHandlers.profile);
     app.route('/auth/register')
         .post(userHandlers.register);
-   app.route('/auth/sign_in')
+    app.route('/auth/sign_in')
         .post(userHandlers.sign_in);
+    app.route('/userProfile')
+        .post(userHandlers.profile);
 };

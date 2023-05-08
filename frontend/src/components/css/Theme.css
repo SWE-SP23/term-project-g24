@@ -1,0 +1,336 @@
+/* Global Styles */
+
+body {
+    background: #fff;
+    font-family: "Campton", sans-serif;
+    color: #333;
+  }
+  h1{
+    font-family: "Campton", sans-serif;
+    color: #eb594c ;
+    font-size: 48px;
+    font-weight: bolder;
+    font-style: italic;
+    margin: 5% 5%;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin:5% 5% ;
+  }
+  .text {
+    font-family: "Campton", sans-serif;
+    color: #246c8e;
+    font-size: 24px;
+    font-style: italic;
+    margin: 5% 5%;
+  }
+  
+  a {
+    color: #2469de;
+    text-decoration: none;
+  }
+  li {
+    margin: 2%;
+  }
+  .image-button{
+    border-radius: 5px;
+    background-color: #246c8e   ;
+    color: white;
+    font-family: 'Campton', sans-serif;
+    font-weight: bolder;
+    font-style: italic;
+    font-size: 24px;
+    padding: 10px 60px;
+    position: absolute;
+    top: 58%;
+    left: 8%;
+    /* transform: translate(70%, 50%);  */
+ }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Navigation Styles */
+  
+  nav {
+    background: #fff;
+    color: #000;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  nav li {
+    margin: 0 10px;
+  }
+  
+  nav a {
+    color: #000;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Home Styles */
+  
+  .home {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .home h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .home p {
+    font-size: 24px;
+    line-height: 1.5;
+  }
+  
+  /* Profile Styles */
+  
+  .profile {
+    padding: 50px;
+  }
+  
+  .profile h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .profile h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .profile p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .profile ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Book Styles */
+  
+  .book {
+    padding: 50px;
+  }
+  
+  .book h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .book h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .book p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .book ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Author Styles */
+  
+  .author {
+    padding: 50px;
+  }
+  
+  .author h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .author h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .author p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .author ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* Search Styles */
+  
+  .search {
+    padding: 50px;
+  }
+  
+  .search h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .search form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .search input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    width: 400px;
+    margin-right: 10px;
+  }
+  
+  .search button[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    background: #2469de;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .search button[type="submit"]:hover {
+    background: #a7a7a7;
+  }
+  
+  /* Login and Signup Styles (unchanged) */
+  
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .form {
+    position: relative;
+    transform: translateY(50%);
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: auto;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+  
+  .form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  
+  .form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #246c8e;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+  }
+  
+  .form button:hover,.form button:active,.form button:focus {
+    background: #a7a7a7;
+  }
+  
+  .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+  }
+  
+  .form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+  }
+  
+  .form .register-form {
+    display: none;
+  }
+  
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .container:before, .container:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  .container .info {
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  .container .info h1 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 36px;
+    font-weight: 300;
+    color: #1a1a1a;
+  }
+  
+  .container .info span {
+    color: #4d4d4d;
+    font-size: 12px;
+  }
+  
+  .container .info span a {
+    color: #000000;
+    text-decoration: none;
+  }
+  
+  .container .info span .fa {
+    color: #EF3B3A;
+  }
+  
+  /* Background Styles */
+  
+  /* body {
+    background: #2469de; /* fallback for old browsers */
+    /* background: rgb(36, 105, 222);
+    background: linear-gradient(90deg,rgba(36,105,222,1) 0%, rgba(108,95,197,1) 50%);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;      
+  } */ 
