@@ -19,8 +19,7 @@ const bookSchema = new Schema({
     type: String
   },
   brief: {
-    type: Date,
-    default: Date.now
+    type: String
   },
 
     reviews : [{

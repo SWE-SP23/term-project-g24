@@ -5,4 +5,6 @@ module.exports = function(app) {
         .get(displayHandlers.get_author);
     app.route('/book')
         .get(displayHandlers.get_book);
+    app.route('/search')
+    	.post(displayHandlers.search_by_parameter);
 };

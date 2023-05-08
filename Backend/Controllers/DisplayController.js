@@ -34,4 +34,76 @@ exports.get_book = function(req, res) {
     }).catch(function(err) {
       throw err;
     });
-}; 
+};
+ //name category  author name
+exports.search_by_parameter = async function (req,res) {
+  const {name,category,author_name} = req.body;
+  console.log(name);
+  console.log(category);
+  console.log(author_name);
+  const query = {};
+  if(req.body.name){
+    query.name = { $regex: req.body.name, $options: 'i' };
+  }
+
+ if(req.body.category){
+    query.category = req.body.category;
+  }
+
+  if(req.body.author_name){
+    Book.aggregate([
+  {
+    $lookup: {
+      from: 'authors',
+      let: { author_id: '$author_id' },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: [ '$_id', '$$author_id' ] },
+                { $in: [ '$_id', '$author.books' ] }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    $unwind: { path: '$author', preserveNullAndEmptyArrays: true }
+  },
+  {
+    $match: {
+      category: query.category, // Filter by category
+      name: { $regex: query.name } // Filter by name using regular expression
+    }
+  }
+])
+  }
+  else{
+   Book.find(query)
+    .then(function(book) {
+      if (!book) {
+        return res.status(401).json({ message: 'There seems to be a problem fetching book according to given params' });
+      }
+      return res.json(book);
+    }).catch(function(err) {
+      throw err;
+    });
+} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
