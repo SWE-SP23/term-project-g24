@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
-const Authors = mongoose.model('Authors');
-const Book = mongoose.model('Book');
+const Author = mongoose.model('author');
+const Book = mongoose.model('book');
 
 exports.get_author = function(req, res) {
-  const authorId = req.params._id;
+  const authorId = req.body._id;
   console.log(authorId);
-  Authors.findById({_id: new mongoose.Types.ObjectId(authorId)})
+  if (!mongoose.Types.ObjectId.isValid(authorId)) {
+    return res.status(400).json({ message: 'Invalid author ID' });
+  }
+  Author.findOne({_id:authorId})
     .then(function(author) {
       if (!author) {
         console.log(author);
@@ -18,11 +21,11 @@ exports.get_author = function(req, res) {
 };
 
 exports.get_book = function(req, res) {
-  const bookId = req.params._id;
+  const bookId = req.body._id;
   if (!mongoose.Types.ObjectId.isValid(bookId)) {
     return res.status(400).json({ message: 'Invalid book ID' });
   }
-  Book.findOne({_id: bookId})
+  Book.findOne({_id:bookId})
     .then(function(book) {
       if (!book) {
         return res.status(401).json({ message: 'There seems to be a problem fetching data about book' });
@@ -31,4 +34,4 @@ exports.get_book = function(req, res) {
     }).catch(function(err) {
       throw err;
     });
-};
+}; 
