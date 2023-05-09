@@ -61,25 +61,21 @@ exports.search_by_parameter = async function (req,res) {
           $match: {
             $expr: {
               $and: [
-                { $eq: [ '$_id', '$$author_id' ] },
-                { $in: [ '$_id', '$author.books' ] }
+                { $eq: [ '$_id', '$$author_id' ] }
               ]
             }
           }
         }
       ]
     }
-  },
-  {
-    $unwind: { path: '$author', preserveNullAndEmptyArrays: true }
-  },
-  {
-    $match: {
-      category: query.category, // Filter by category
-      name: { $regex: query.name } // Filter by name using regular expression
-    }
   }
-])
+]).toArray(function(err, results) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(results);
+});
   }
   else{
    Book.find(query)
