@@ -25,16 +25,42 @@ exports.get_book = function(req, res) {
   if (!mongoose.Types.ObjectId.isValid(bookId)) {
     return res.status(400).json({ message: 'Invalid book ID' });
   }
-  Book.findOne({_id:bookId})
-    .then(function(book) {
-      if (!book) {
-        return res.status(401).json({ message: 'There seems to be a problem fetching data about book' });
+   Book.aggregate([
+     { $match: { _id:  new mongoose.Types.ObjectId(bookId) } },
+    {
+      $lookup: {
+        from: 'authors',
+        localField: 'author_id',
+        foreignField: '_id',
+        as: 'author_data'
       }
-      return res.json(book);
-    }).catch(function(err) {
-      throw err;
-    });
+    }
+  ]).then(result => {
+  console.log(result);
+  return res.json(result);
+}).catch(err => {
+  console.error(err);
+  throw err;
+});
 };
+
+exports.get_author_books = function(req, res) {
+  const authorId = req.body.author_id;
+  const bookIds = req.body.author_books;
+  if (!mongoose.Types.ObjectId.isValid(authorId)) {
+    return res.status(400).json({ message: 'Invalid author ID' });
+  }
+   Book.aggregate([
+  { $match: { _id: { $in: bookIds.map(id => new mongoose.Types.ObjectId(id)) } } }
+]).then(result => {
+  console.log(result);
+  return res.json(result);
+}).catch(err => {
+  console.error(err);
+  throw err;
+});
+};
+
  //name category  author name
 exports.search_by_parameter = async function (req,res) {
   const {name,category,author_name} = req.body;
@@ -51,30 +77,40 @@ exports.search_by_parameter = async function (req,res) {
   }
 
   if(req.body.author_name){
-    Book.aggregate([
-  {
+    Author.aggregate([
+  {$match: {name: req.body.author_name}},{
     $lookup: {
-      from: 'authors',
-      let: { author_id: '$author_id' },
-      pipeline: [
-        {
-          $match: {
-            $expr: {
-              $and: [
-                { $eq: [ '$_id', '$$author_id' ] }
-              ]
-            }
-          }
-        }
-      ]
+      from: 'books',
+        localField: '_id',
+        foreignField: 'author_id',
+        as: 'author_books'
+      
+    }
+  },{
+    $project: {
+      _id: 0,
+      name: 1,
+      bio:1,
+      icon:1,
+      author_books: {
+      $filter: {
+        input: '$author_books',
+        as: 'item',
+        cond: {
+          $and:[
+             {$eq: ['$$item.category', req.body.category]},
+             {$eq: ['$$item.name', req.body.name]}
+       ] }
+      }
+    }
     }
   }
-]).toArray(function(err, results) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  console.log(results);
+]).then(result => {
+  console.log(result);
+  return res.json(result);
+}).catch(err => {
+  console.error(err);
+  throw err;
 });
   }
   else{
@@ -88,14 +124,6 @@ exports.search_by_parameter = async function (req,res) {
       throw err;
     });
 } }
-
-
-
-
-
-
-
-
 
 
 

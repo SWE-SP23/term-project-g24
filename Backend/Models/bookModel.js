@@ -15,8 +15,8 @@ const bookSchema = new Schema({
     trim: true,
     required: true
   },
-  author: {
-    type: String
+  author_id: {
+    type:Schema.Types.ObjectId
   },
   brief: {
     type: String
