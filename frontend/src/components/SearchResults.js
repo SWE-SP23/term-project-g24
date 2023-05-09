@@ -34,12 +34,15 @@ function SearchResults({ searchResults }) {
     <div className="search-results">
       <h2>Search Results</h2>
       {currentResults.map((result) => (
-        <div key={result.id} className="search-result">
-          <h3>{result.title}</h3>
-          <p>{result.author}</p>
-          <Link to={`/book/${result.id}`} className="search-result-link">
-            View Details
+        <div key={result._id} className="search-result">
+          <Link to={`/book/${result._id}`} className="search-result-link">
+            <h3>{result.name}</h3>
           </Link>
+          <Link to={`/author/${result.author_id}`}>
+            <p>{result.author_id}</p>
+          </Link>
+          <p>{result.category}</p>
+          <p>{result.brief}</p>
         </div>
       ))}
       {totalPages > 1 && (

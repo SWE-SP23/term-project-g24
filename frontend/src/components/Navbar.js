@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./css/Navbar.css";
 import logo from "./Assets/logo final.png";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
+import SearchResults from "./SearchResults";
 
 function Navbar({ loggedIn, onLogout, onSearch }) {
+  const navigate = useNavigate();
+  const location = useLocation(); // use useLocation hook
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [bookSearchTerm, setBookSearchTerm] = useState("");
+  const [name, setname] = useState("");
   const [authorSearchTerm, setAuthorSearchTerm] = useState("");
-  const [genreFilter, setGenreFilter] = useState("All");
+  const [category, setcategory] = useState("All");
   const [sortFilter, setSortFilter] = useState("Latest");
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -22,15 +27,15 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
   };
 
   const handleBookSearchChange = (event) => {
-    setBookSearchTerm(event.target.value);
+    setname(event.target.value);
   };
 
   const handleAuthorSearchChange = (event) => {
     setAuthorSearchTerm(event.target.value);
   };
 
-  const handleGenreFilterChange = (event) => {
-    setGenreFilter(event.target.value);
+  const handlecategoryChange = (event) => {
+    setcategory(event.target.value);
   };
 
   const handleSortFilterChange = (event) => {
@@ -40,14 +45,16 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
     const searchTerm = {
-      bookSearchTerm,
+      name,
       authorSearchTerm,
-      genreFilter,
-      sortFilter,
+      // category,
+      // sortFilter,
     };
     try {
-      const response = await axios.post("/api/search", searchTerm);
-      onSearch(response.data);
+      const response = await axios.post("http://localhost:4000/search", searchTerm);
+      setSearchResults(response.data);
+      navigate("/searchResults"); // navigate only when search is made
+      setIsExpanded(false);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +94,7 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
               <input type="text" placeholder="Search authors" onChange={handleAuthorSearchChange} />
               <div className="navbar-filters">
                 <div className="navbar-filter">
-                  <select value={genreFilter} onChange={handleGenreFilterChange}>
+                  <select value={category} onChange={handlecategoryChange}>
                     <option value="All">All Genres</option>
                     <option value="Action">Action</option>
                     <option value="Comedy">Comedy</option>
@@ -109,6 +116,9 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
           </form>
         )}
       </div>
+      {searchResults.length > 0 && location.pathname === "/searchResults" && (
+        <SearchResults searchResults={searchResults} />
+      )}
     </nav>
   );
 }
