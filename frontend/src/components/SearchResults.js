@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./css/SearchResults.css";
 
 function SearchResults({ searchResults }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage] = useState(30);
+  const navigate = useNavigate();
 
   // Calculate the index of the first and last result on the current page
   const indexOfLastResult = currentPage * resultsPerPage;
@@ -26,6 +27,10 @@ function SearchResults({ searchResults }) {
     setCurrentPage(Number(event.target.dataset.page));
   };
 
+  const handleBookClick = (book) => {
+    navigate("/book", { state: { book } });
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchResults]);
@@ -35,14 +40,19 @@ function SearchResults({ searchResults }) {
       <h2>Search Results</h2>
       {currentResults.map((result) => (
         <div key={result._id} className="search-result">
-          <Link to={`/book/${result._id}`} className="search-result-link">
+          {/* Use a onClick handler to send the book object to Book */}
+          <div className="search-result-link" onClick={() => handleBookClick(result)}>
             <h3>{result.name}</h3>
-          </Link>
-          <Link to={`/author/${result.author_id}`}>
+          </div>
+          <div>
             <p>{result.author_id}</p>
-          </Link>
-          <p>{result.category}</p>
-          <p>{result.brief}</p>
+          </div>
+          <div>
+            <p>{result.category}</p>
+          </div>
+          <div>
+            <p>{result.brief}</p>
+          </div>
         </div>
       ))}
       {totalPages > 1 && (

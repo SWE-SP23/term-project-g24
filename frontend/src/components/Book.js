@@ -1,22 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import { useLocation } from "react-router-dom";
 
 function Book() {
-  const { bookId } = useParams();
-  const [book, setBook] = useState(null);
-
-  useEffect(() => {
-    const fetchBook = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/book/${bookId}`);
-        setBook(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchBook();
-  }, [bookId]);
+  const location = useLocation();
+  const book = location.state.book;
 
   if (!book) {
     return <div>Loading...</div>;
@@ -24,9 +11,13 @@ function Book() {
 
   return (
     <div>
+      <p><br/><br/><br/><br/></p>
       <h2>{book.name}</h2>
       <p>Author: {book.author_id}</p>
       <p>{book.brief}</p>
+      <p>{book.cover}</p>
+      <p>{book.category}</p>
+      {/* <p>{book.reviews}</p> */}
     </div>
   );
 }
