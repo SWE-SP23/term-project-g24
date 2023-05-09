@@ -29,33 +29,31 @@ function App() {
       const response = await fetch(`/api/search?q=${searchTerm}`);
       const data = await response.json();
       setSearchResults(data);
-      navigate(`/searchResults`, { replace: true }); // Use replace option to replace current history entry
+      navigate("/search");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
-    <Router>
-      <div>
-        <Navbar 
-          loggedIn={loggedIn} 
-          onLogout={handleLogout} 
-          onSearch={(searchTerm) => handleSearch(searchTerm, window.location)}
-        />
+    <div>
+      <Router>
+        <Navbar loggedIn={loggedIn} handleLogout={handleLogout} handleSearch={handleSearch} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/book/:bookId" element={<Book />} />
-          <Route path="/author/:authorId" element={<Author />} />
-          <Route path="/searchResults" element={<SearchResults searchResults={searchResults} />} />
+          {/* Add the Book route */}
+          <Route path="/book" element={<Book />} />
+          <Route path="/author/:id" element={<Author />} />
+          {/* Pass the searchResults to the SearchResults component */}
+          <Route path="/search" element={<SearchResults searchResults={searchResults} />} />
           <Route path="/tips" element={<Tips />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup handleLogin={handleLogin} />} />
         </Routes>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 
