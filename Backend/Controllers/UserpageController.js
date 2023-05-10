@@ -1,12 +1,19 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  Book = mongoose.model('book')
+  Book = mongoose.model('book'),
+  jwt = require('jsonwebtoken');
 
 //get all books in user.books
 
 exports.get_all_books = async function (req, res) {
   try {
-    const user = await User.findById(req.params.userId).populate('books');
+    const token = req.headers.authorization;
+    console.log(token);
+    const decoded = jwt.verify(token, "RESTFULAPIs");
+    const userId = decoded._id;
+    console.log(userId); // prints "1234567890"
+    const user = await User.findById(userId).populate('books');
+
     if (!user) {
       return res.status(404).json({ message: `User with id ${req.params.userId} not found` });
     }
@@ -21,18 +28,17 @@ exports.get_all_books = async function (req, res) {
 //add books to user's books array
 
 exports.addToBooks = async function (req, res) {
-  const { userId, bookId } = req.params;
-
-  // if (!mongoose.Types.ObjectId.isValid(bookId)) {
-  //   return res.status(400).json({ message: "Invalid book ID" });
-  // }
-
   try {
+    const token = req.headers.authorization;
+    console.log(token);
+    const decoded = jwt.verify(token, "RESTFULAPIs");
+    const userId = decoded._id;
+    console.log(userId); // prints "1234567890"
     const user = await User.findById({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: `User with id ${userId} not found` });
     }
-    const book = await Book.findById({ _id: bookId });
+    const book = await Book.findById({ _id: new mongoose.Types.ObjectId( req.body.bookId) });
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
@@ -51,13 +57,17 @@ exports.addToBooks = async function (req, res) {
 };
 //remove book from user's book array
 exports.removeFromBooks = async function (req, res) {
-  const { userId, bookId } = req.params;
   try {
+    const token = req.headers.authorization;
+    console.log(token);
+    const decoded = jwt.verify(token, "RESTFULAPIs");
+    const userId = decoded._id;
+    console.log(userId); // prints "1234567890"
     const user = await User.findById({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: `User with id ${userId} not found` });
     }
-    const book = await Book.findById({ _id: bookId });
+    const book = await Book.findById({ _id: new mongoose.Types.ObjectId( req.body.bookId) });
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }

@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
     newUser.save()
       .then(user => {
         user.hash_password = undefined;
-      return res.json(user);
+      return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs', { expiresIn: "2h" })});
       })
       .catch(err => {
         return res.status(400).send({
@@ -25,7 +25,7 @@ var mongoose = require('mongoose'),
         if (!user || !user.comparePassword(req.body.password)) {
           return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
         }
-        return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
+        return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs', { expiresIn: "2h" })});
       })
       .catch(function(err) {
         throw err;
