@@ -1,54 +1,78 @@
-.search-results {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .search-result {
-    margin-bottom: 20px;
-  }
-  
-  .search-result h3 {
-    margin-bottom: 5px;
-  }
-  
-  .search-result p {
-    margin-bottom: 10px;
-  }
-  
-  .search-result-link {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-  .pagination {
-    display: flex;
-    margin-top: 20px;
-  }
-  
-  .pagination-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .pagination-link:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  .pagination-link.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.book-container, .author-container {
+  width: 30%;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 450px;
+}
+
+.book-cover, .author-icon {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  cursor: pointer;
+}
+
+.book-info, .author-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.book-title, .author-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #246c8e;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.book-genre {
+  font-size: 18px;
+  font-weight: bold;
+  color: #eb594c;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.book-author {
+  font-size: 14px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.author-bio {
+  font-size: 14px;
+  color: black;
+  margin-top: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.pagination-link {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.pagination-link.active {
+  font-weight: bold;
+  background-color: #246c8e;
+  color: white;
+  border-color: #246c8e;
+}

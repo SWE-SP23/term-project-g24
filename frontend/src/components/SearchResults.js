@@ -4,7 +4,7 @@ import "./css/SearchResults.css";
 
 function SearchResults({ searchResults }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage] = useState(30);
+  const [resultsPerPage] = useState(9);
   const navigate = useNavigate();
 
   // Calculate the index of the first and last result on the current page
@@ -27,8 +27,10 @@ function SearchResults({ searchResults }) {
     setCurrentPage(Number(event.target.dataset.page));
   };
 
-  const handleBookClick = (book) => {
-    navigate("/book", { state: { book } });
+  const handleResultClick = (result) => {
+    const route = result.icon ? "/author" : "/book";
+    const data = result.icon ? result : { book: result };
+    navigate(route, { state: data });
   };
 
   useEffect(() => {
@@ -36,39 +38,55 @@ function SearchResults({ searchResults }) {
   }, [searchResults]);
 
   return (
-    <div className="search-results">
-      <h2>Search Results</h2>
-      {currentResults.map((result) => (
-        <div key={result._id} className="search-result">
-          {/* Use a onClick handler to send the book object to Book */}
-          <div className="search-result-link" onClick={() => handleBookClick(result)}>
-            <h3>{result.name}</h3>
-          </div>
-          <div>
-            <p>{result.author_id}</p>
-          </div>
-          <div>
-            <p>{result.category}</p>
-          </div>
-          <div>
-            <p>{result.brief}</p>
-          </div>
-        </div>
-      ))}
-      {totalPages > 1 && (
-        <div className="pagination">
-          {pageNumbers.map((pageNumber) => (
-            <div
-              key={pageNumber}
-              className={`pagination-link ${pageNumber === currentPage ? "active" : ""}`}
-              data-page={pageNumber}
-              onClick={handlePageClick}
-            >
-              {pageNumber}
+    <div>
+      <p>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </p>
+      <div className="results-container">
+        {currentResults.map((result) => (
+          <div
+            key={result._id}
+            className={result.icon ? "author-container" : "book-container"}
+          >
+            <img
+              className={result.icon ? "author-icon" : "book-cover"}
+              src={result.icon || result.cover}
+              alt={result.icon ? result.name + " icon" : result.name + " book cover"}
+              onClick={() => handleResultClick(result)}
+            />
+            <div className={result.icon ? "author-info" : "book-info"}>
+              <div
+                className={result.icon ? "author-name" : "book-title"}
+                onClick={() => handleResultClick(result)}
+              >
+                {result.name}
+              </div>
+              {!result.icon && <div className="book-genre">{result.category}</div>}
+              {!result.icon && <div className="book-author">{result.author_name}</div>}
+              {result.icon && <div className="author-bio">{result.bio}</div>}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
+      <div className="pagination">
+        {pageNumbers.map((page) => (
+          <div
+            key={page}
+            className={`pagination-link ${
+              page === currentPage ? "active" : ""
+            }`}
+            data-page={page}
+            onClick={handlePageClick}
+          >
+            {page}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
