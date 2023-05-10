@@ -22,11 +22,22 @@ const bookSchema = new Schema({
     type: String
   },
 
-    reviews : [{
-    user: {type: Schema.Types.ObjectId, ref: "User"},
-    rating: { type: Number },
-    body: String,
-    date: Date
+    reviews: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    user_name: {
+      type: String
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
   }]
 })
 

@@ -9,4 +9,6 @@ module.exports = function(app) {
     	.post(displayHandlers.search_by_parameter);
     app.route('/author_books')
     	.get(displayHandlers.get_author_books);
+    app.route('/addreview')
+    	.post(displayHandlers.add_comment);
 };
