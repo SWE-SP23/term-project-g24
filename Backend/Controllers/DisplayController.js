@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Author = mongoose.model('author');
-const Book = mongoose.model('book');
+const Book = mongoose.model('book'),
+jwt = require('jsonwebtoken');
 
 exports.get_author = function(req, res) {
   const authorId = req.body._id;
@@ -19,6 +20,33 @@ exports.get_author = function(req, res) {
       throw err;
     });
 };
+
+exports.add_comment = async function(req,res){
+    const token = req.headers.authorization;
+    console.log(token);
+    const decoded = jwt.verify(token, "RESTFULAPIs");
+    const userId = decoded._id;
+    const userName = decoded.fullName;
+    console.log(userId); // prints "1234567890"
+    console.log(userName);
+
+    const bookId = req.body._id;
+     if (!mongoose.Types.ObjectId.isValid(req.body._id)) {
+    return res.status(400).json({ message: 'Invalid book ID' });
+  }
+    const book = await Book.findById({ _id: new mongoose.Types.ObjectId(req.body._id) });
+   console.log(book);
+    const body = req.body.body;
+    const r = {
+      user: userId,
+      user_name:userName,
+      body:body,
+      date: Date.now()
+    };
+    book.reviews.push(r);
+    await book.save();
+    return res.status(200).json(r);
+}
 
 exports.get_book = function(req, res) {
   const bookId = req.body._id;
