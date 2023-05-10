@@ -45,9 +45,7 @@ const UserSchema = new Schema({
       trim: true,
      default: 'No bio'
     
-    }
-
-      
+    } 
   
 })
 
