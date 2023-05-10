@@ -1,10 +1,10 @@
 module.exports = function(app) {
     var userHandlers = require('../Controllers/UserpageController');
     // List Routes
-    app.route('/all/:userId')
+    app.route('/all')
         .get(userHandlers.get_all_books);
-    app.route('/:userId/:bookId')
+    app.route('/addBook')
         .post(userHandlers.addToBooks);
-    app.route('/remove/:userId/:bookId')
+    app.route('/removeBook')
         .post(userHandlers.removeFromBooks);
 };

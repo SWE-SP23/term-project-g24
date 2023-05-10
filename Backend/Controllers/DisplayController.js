@@ -76,7 +76,7 @@ exports.search_by_parameter = async function (req,res) {
     query.category = req.body.category;
   }
 
-  if(req.body.author_name){
+  if(req.body.author_name && (req.body.category || req.body.name)){
     Author.aggregate([
   {$match: {name: req.body.author_name}},{
     $lookup: {
@@ -97,7 +97,7 @@ exports.search_by_parameter = async function (req,res) {
         input: '$author_books',
         as: 'item',
         cond: {
-          $and:[
+          $or:[
              {$eq: ['$$item.category', req.body.category]},
              {$eq: ['$$item.name', req.body.name]}
        ] }
@@ -113,6 +113,24 @@ exports.search_by_parameter = async function (req,res) {
   throw err;
 });
   }
+  else if(req.body.author_name) {
+    Author.aggregate([
+      {$match: {name: req.body.author_name}},{
+        $lookup: {
+          from: 'books',
+            localField: '_id',
+            foreignField: 'author_id',
+            as: 'author_books'
+          
+        }
+      }
+    ]).then(result => {
+      console.log(result);
+      return res.json(result);
+    }).catch(err => {
+      console.error(err);
+      throw err;
+    }); }
   else{
    Book.find(query)
     .then(function(book) {
@@ -124,10 +142,3 @@ exports.search_by_parameter = async function (req,res) {
       throw err;
     });
 } }
-
-
-
-
-
-
-

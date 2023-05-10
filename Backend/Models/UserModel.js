@@ -24,7 +24,29 @@ const UserSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  books:
+  [
+    { 
+      type: Schema.Types.ObjectId,
+      ref: 'Book'
+      }
+  ]
+  ,
+  picture:
+  {//profile picture jpg
+    type: String,
+    trim: true,
+    default: 'default.jpg'
+    },
+    bio:
+    {
+      type: String,
+      trim: true,
+     default: 'No bio'
+    
+    } 
+  
 })
 
 UserSchema.methods.comparePassword = function(password) {
