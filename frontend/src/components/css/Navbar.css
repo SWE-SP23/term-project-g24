@@ -45,8 +45,8 @@ body {
 }
 
 .navbar-search-form {
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: 100px;
   left: 0;
   width: 100%;
   padding: 10px;
@@ -54,7 +54,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   z-index: 1;
-}
+  }
 
 .navbar-search-box {
   display: flex;

@@ -48,7 +48,7 @@ function App() {
           {/* Pass the searchResults to the SearchResults component */}
           <Route path="/search" element={<SearchResults searchResults={searchResults} />} />
           <Route path="/tips" element={<Tips />} />
-          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleLogin={handleLogin} />} />
         </Routes>
         <Footer />

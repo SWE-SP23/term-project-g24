@@ -16,9 +16,11 @@ const Login = ({ onLogin }) => {
         email,
         password,
       });
+      console.log(response);
 
-      localStorage.setItem('token', response.headers.authorization);
-      
+      const token = response.headers.authorization.substring(7);
+      localStorage.setItem('token', token);
+            console.log(response.headers.authorization);
       // Call the onLogin function to update the loggedIn state
       onLogin();
       

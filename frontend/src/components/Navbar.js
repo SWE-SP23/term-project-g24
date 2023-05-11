@@ -48,7 +48,7 @@ function Navbar({ loggedIn, onLogout }) {
 
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
-    setSearchResults([]);
+    setSearchResults([]); // clear searchResults state
     const searchTerm = {
       name,
       author_name,
@@ -56,7 +56,7 @@ function Navbar({ loggedIn, onLogout }) {
       // sortFilter,
     };
     try {
-      searchTerm.category = "";
+      if(searchTerm.category==="All") searchTerm.category = "";
       const response = await axios.post(
         "http://localhost:4000/search_by_parameter",
         searchTerm
@@ -67,10 +67,14 @@ function Navbar({ loggedIn, onLogout }) {
         setSearchResults(response.data);
         navigate("/searchResults"); // navigate only when search is made
       }, 0);
+      searchTerm.category = "";
+      searchTerm.name="";
+      searchTerm.author_name="";
       setIsExpanded(false);
     } catch (error) {
       console.log(error);
     }
+
   };
 
   return (
