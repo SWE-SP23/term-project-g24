@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import "./css/profile.css";
 
 const Profile = () => {
@@ -29,11 +30,17 @@ const Profile = () => {
       <div className="results-container">
         {books.map(book => (
           <div key={book._id} className="book-container">
-            <img className="book-cover" src={book.cover} alt={book.name} />
+            <Link to={{ pathname: "/book", state: { book } }}>
+              <img className="book-cover" src={book.cover} alt={book.name} />
+            </Link>
             <div className="book-info">
-              <div className="book-title">{book.name}</div>
+              <Link to={{ pathname: "/book", state: { book } }}>
+                <div className="book-title">{book.name}</div>
+              </Link>
               <div className="book-genre">{book.category}</div>
-              <div className="book-author">Author: {book.author_id}</div>
+              <Link to={{ pathname: "/author", state: { author: book.author_id } }}>
+                <div className="book-author">Author: {book.author_name}</div>
+              </Link>
               <div className="book-brief">{book.brief}</div>
               <div className="book-reviews">Reviews: {book.reviews.length}</div>
             </div>
