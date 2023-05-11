@@ -7,14 +7,19 @@ exports.get_author = function(req, res) {
   const authorId = req.body._id;
   console.log(authorId);
   if (!mongoose.Types.ObjectId.isValid(authorId)) {
-    return res.status(400).json({ message: 'Invalid author ID' });
+    console.log('bad id');
+    return res.json({ message: 'Invalid author ID' });
   }
+  console.log('past the validation');
   Author.findOne({_id:authorId})
     .then(function(author) {
+      console.log('debug sentence');
       if (!author) {
+        console.log('no id');
         console.log(author);
-        return res.status(401).json({ message: 'There seems to be a problem fetching data about author' });
+        return res.json({ message: 'There seems to be a problem fetching data about author' });
       }
+      console.log('good id');
       return res.json(author);
     }).catch(function(err) {
       throw err;
@@ -34,6 +39,7 @@ exports.add_comment = async function(req,res){
      if (!mongoose.Types.ObjectId.isValid(req.body._id)) {
     return res.status(400).json({ message: 'Invalid book ID' });
   }
+  console.log("before query");
     const book = await Book.findById({ _id: new mongoose.Types.ObjectId(req.body._id) });
    console.log(book);
     const body = req.body.body;
