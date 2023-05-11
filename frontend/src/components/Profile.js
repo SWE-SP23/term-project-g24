@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-// import './css/Profile.css';
+import "./css/profile.css";
 
 const Profile = () => {
   const [books, setBooks] = useState([]);
@@ -23,18 +23,20 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-            <p><br/><br/><br/><br/></p>
+      <p><br/><br/><br/><br/></p>
 
       <h1>My Books</h1>
-      <div className="books-container">
+      <div className="results-container">
         {books.map(book => (
-          <div key={book._id} className="book-card">
-            <img src={book.cover} alt={book.name} />
-            <h2>{book.name}</h2>
-            <p>{book.brief}</p>
-            <p>Category: {book.category}</p>
-            <p>Author: {book.author_id}</p>
-            <p>Reviews: {book.reviews.length}</p>
+          <div key={book._id} className="book-container">
+            <img className="book-cover" src={book.cover} alt={book.name} />
+            <div className="book-info">
+              <div className="book-title">{book.name}</div>
+              <div className="book-genre">{book.category}</div>
+              <div className="book-author">Author: {book.author_id}</div>
+              <div className="book-brief">{book.brief}</div>
+              <div className="book-reviews">Reviews: {book.reviews.length}</div>
+            </div>
           </div>
         ))}
       </div>
