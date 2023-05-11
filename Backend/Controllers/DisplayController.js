@@ -8,19 +8,20 @@ exports.get_author = function(req, res) {
   console.log(authorId);
   if (!mongoose.Types.ObjectId.isValid(authorId)) {
     console.log('bad id');
-    return res.json({ message: 'Invalid author ID' });
+    return res.status(400).json({ message: 'Invalid author ID' });
   }
   console.log('past the validation');
   Author.findOne({_id:authorId})
     .then(function(author) {
+      console.log('author:', author);
       console.log('debug sentence');
       if (!author) {
         console.log('no id');
         console.log(author);
-        return res.json({ message: 'There seems to be a problem fetching data about author' });
+        return res.status(400).json({ message: 'There seems to be a problem fetching data about author' });
       }
       console.log('good id');
-      return res.json(author);
+      return res.json(author.toJSON());
     }).catch(function(err) {
       throw err;
     });

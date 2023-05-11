@@ -2,23 +2,26 @@ const mongoose = require('mongoose');
 const sinon = require('sinon');
 const chai = require('chai');
 const expect = chai.expect;
-const User = require('../Models/UserModel'),
-  Book = require('../Models/bookModel'),
-  Author = require('../Models/authorModel');
+const User = require('../Models/UserModel');
+const Book = require('../Models/bookModel');
+const Author = require('../Models/authorModel');
 const { get_author, add_comment, get_book, get_author_books, search_by_parameter } = require('../Controllers/DisplayController');
 const jwt = require('jsonwebtoken');
+const Mockgoose = require('mockgoose').Mockgoose;
+const mockgoose = new Mockgoose(mongoose);
 
 describe('Controller functions', () => {
   // Define test data
-  const author = {
-    _id:'6457976cfc13ae55546010cc',
+  const authorData = {
+     _id: new mongoose.Types.ObjectId("6457976cfc13ae55546010ca"),
     name: 'hayam',
     bio: 'winner award writer',
     icon: 'http://dummyimage.com/112x100.png/dddddd/000000',
-    books: null
-
+    books: null,
+    __v: 0
   };
-  const book = {
+  const bookData = {
+    _id: new mongoose.Types.ObjectId(),
     name: "book1",
     brief: "a book about mystery",
     cover: "http://dummyimage.com/204x100.png/cc0000/ffffff",
@@ -26,44 +29,77 @@ describe('Controller functions', () => {
     author_id: "6457976cfc13ae55546010ca",
     reviews: [
       {
-        "64514b9fd8da0cc49ab4c2e6": "good"
+        user: "64514b9fd8da0cc49ab4c2e6",
+        body: "good"
       }
     ]
   };
   const token = jwt.sign({ _id: 'userId123', fullName: 'John Doe' }, 'RESTFULAPIs');
+  
+  // Connect to the Mockgoose instance
+  before(async () => {
+    await mockgoose.prepareStorage();
+    await mongoose.connect('mongodb://localhost:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true });
+    // Create a new author object and save it to the database
+    const author = new Author(authorData);
+    await author.save();
 
-  // Test case 1: get_author with valid ID
-  it('get_author should return the author if the ID is valid', async () => {
-    // Mock the request and response objects
-    const req = { body: { _id: '6457976cfc13ae55546010cc' } };
-    const res = { json: sinon.spy() };
-
-    // Mock the Author.findOne method to return a sample author
-    const findOneStub = sinon.stub(Author, 'findOne').resolves(author);
-
-    // Call the function and assert that the author is returned
-    await get_author(req, res);
-    expect(findOneStub.calledOnceWith({body:{ _id: '6457976cfc13ae55546010cc' }})).to.be.true;
-    expect(res.json.calledOnceWith(author)).to.be.true;
-
-    // Restore the stubbed method
-    findOneStub.restore();
+    // Create a new book object and save it to the database
+    const book = new Book(bookData);
+    await book.save();
   });
 
-  // // Test case 2: get_author with invalid ID
-  // it('get_author should return 400 if the ID is invalid', async () => {
-  //   // Mock the request and response objects
-  //   const req = { body: { _id: '6457976cfc13ae55546010cc' } };
-  //   const res = {
-  //     status: sinon.stub().returnsThis(),
-  //     json: sinon.spy(),
-  //   };
+  // beforeEach(async () => {
+  //   // Create a new author object and save it to the database
+  //   const author = new Author(authorData);
+  //   await author.save();
 
-  //   // Call the function and assert that a 400 status code is returned
-  //   await get_author(req, res);
-  //   expect(res.status.calledOnceWith(400)).to.be.true;
-  //   expect(res.json.calledOnceWith({ message: 'Invalid author ID' })).to.be.true;
+  //   // Create a new book object and save it to the database
+  //   const book = new Book(bookData);
+  //   await book.save();
   // });
+
+ // Disconnect from the Mockgoose instance
+  after(async () => {
+    await mongoose.connection.close();
+  });
+
+  // Test case 1: get_author with valid ID
+  it('get_author should return the author if the ID is valid', done => {
+  // Mock the request and response objects
+  const req = { body: { _id: authorData._id } };
+  const res = { json: sinon.spy(callback) };
+
+  // Define the callback function
+  function callback(authorJson) {
+    expect(authorJson).to.deep.equal(authorData);
+    done();
+  }
+
+  // Call the function
+  get_author(req, res);
+});
+
+ 
+  // Test case 2: get_author with invalid ID
+it('get_author should return error message if the ID is invalid', async () => {
+  // Mock the request and response objects
+  const req = { body: { _id: new mongoose.Types.ObjectId() } };
+  const res = {
+    status: sinon.stub().returnsThis(),
+    json: sinon.spy(),
+  };
+
+   function callback(errorMsg) {
+    expect(errorMsg).to.deep.equal({ message: 'bb author ID' });
+    done();
+  }
+  // Call the function and assert that a 400 status code is returned
+  const msg = await get_author(req, res);
+  console.log('msg: ',msg);
+  // expect(res.status.calledWith(400)).to.be.true;
+  // expect(res.json.calledOnceWith({ message: 'Invalid author ID' })).to.be.true;
+});
 
   // // Test case 3: add_comment with valid data
   // it('add_comment should add a comment to the book and return the comment', async () => {
