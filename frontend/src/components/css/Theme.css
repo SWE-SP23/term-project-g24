@@ -100,7 +100,72 @@ body {
   nav a:hover {
     text-decoration: underline;
   }
+  .results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   
+  .book-container {
+    width: 30%;
+    margin-bottom: 30px;
+  }
+  
+  .book-cover {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .book-info {
+    text-align: center;
+  }
+  
+  .book-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #246c8e;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  
+  .book-genre {
+    font-size: 18px;
+    font-weight: bold;
+    color: #eb594c;
+    margin-bottom: 5px;
+  }
+  
+  .book-author {
+    font-size: 14px;
+    color: black;
+    margin-bottom: 5px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .pagination-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .pagination-link.active {
+    font-weight: bold;
+    background-color: #246c8e;
+    color: white;
+    border-color: #246c8e;
+  }
   /* Home Styles */
   
   .home {

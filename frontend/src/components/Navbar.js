@@ -6,14 +6,14 @@ import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import SearchResults from "./SearchResults";
 
-function Navbar({ loggedIn, onLogout, onSearch }) {
+function Navbar({ loggedIn, onLogout }) {
   const navigate = useNavigate();
   const location = useLocation(); // use useLocation hook
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [name, setname] = useState("");
-  const [authorSearchTerm, setAuthorSearchTerm] = useState("");
-  const [category, setcategory] = useState("All");
+  const [name, setName] = useState("");
+  const [author_name, setAuthorName] = useState("");
+  const [category, setCategory] = useState("All");
   const [sortFilter, setSortFilter] = useState("Latest");
   const [searchResults, setSearchResults] = useState([]);
 
@@ -27,15 +27,19 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
   };
 
   const handleBookSearchChange = (event) => {
-    setname(event.target.value);
+    setName(event.target.value);
   };
 
   const handleAuthorSearchChange = (event) => {
-    setAuthorSearchTerm(event.target.value);
+    setAuthorName(event.target.value);
   };
 
   const handlecategoryChange = (event) => {
-    setcategory(event.target.value);
+    if(event.target.value === "All") {
+      setCategory("");
+    } else {
+      setCategory(event.target.value);
+    }
   };
 
   const handleSortFilterChange = (event) => {
@@ -44,20 +48,33 @@ function Navbar({ loggedIn, onLogout, onSearch }) {
 
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
+    setSearchResults([]); // clear searchResults state
     const searchTerm = {
       name,
-      authorSearchTerm,
-      // category,
+      author_name,
+      category,
       // sortFilter,
     };
     try {
-      const response = await axios.post("http://localhost:4000/search", searchTerm);
-      setSearchResults(response.data);
-      navigate("/searchResults"); // navigate only when search is made
+      if(searchTerm.category==="All") searchTerm.category = "";
+      const response = await axios.post(
+        "http://localhost:4000/search_by_parameter",
+        searchTerm
+      );
+      console.log(searchTerm);
+      console.log(response);
+      setTimeout(() => {
+        setSearchResults(response.data);
+        navigate("/searchResults"); // navigate only when search is made
+      }, 0);
+      searchTerm.category = "";
+      searchTerm.name="";
+      searchTerm.author_name="";
       setIsExpanded(false);
     } catch (error) {
       console.log(error);
     }
+
   };
 
   return (

@@ -25,8 +25,9 @@ mongoose.connect( mongoURI ).then(function(){
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
-
+app.use(cors({
+  exposedHeaders: 'Authorization', // Allow the Authorization header in CORS
+}));
 app.use(function(req, res, next) {
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
     jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {

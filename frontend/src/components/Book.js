@@ -15,7 +15,7 @@ function Book() {
       <h2>{book.name}</h2>
       <p>Author: {book.author_id}</p>
       <p>{book.brief}</p>
-      <p>{book.cover}</p>
+      <img src={book.cover} alt="bookCover"style={{scale:"200%"}}></img>
       <p>{book.category}</p>
       {/* <p>{book.reviews}</p> */}
     </div>
