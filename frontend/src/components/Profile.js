@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import "./css/profile.css";
 
 const Profile = () => {
   const [books, setBooks] = useState([]);
   const [authorNames, setAuthorNames] = useState({});
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -55,7 +56,9 @@ const Profile = () => {
       // Handle the error here, such as displaying an error message to the user
     }
   };
-
+  for (const book of books) {
+    console.log(book);
+  }
   return (
     <div className="profile-page">
       {/* <p><br/><br/><br/><br/></p> */}

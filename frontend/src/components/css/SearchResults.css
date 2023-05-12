@@ -6,7 +6,7 @@
   /* add overflow-y: auto to add a vertical scrollbar to the container */
   overflow-y: auto;
   /* set the height of the container to fill the available space */
-  height: calc(100vh - 250px);  
+  height: calc(100vh - 250px);
 }
 
 .book-container, .author-container {
@@ -17,6 +17,9 @@
   align-items: center;
   height: 350px;
   margin-top: 2%;
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 
 .book-cover, .author-icon {
@@ -26,11 +29,6 @@
   max-width: 300px;
   height: auto;
   cursor: pointer;
-}
-
-.book-info, .author-info {
-  text-align: center;
-  margin-top: 10px;
 }
 
 .book-title, .author-name {
@@ -60,6 +58,19 @@
   font-size: 14px;
   color: black;
   margin-top: 10px;
+}
+
+/* Define the animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .pagination {

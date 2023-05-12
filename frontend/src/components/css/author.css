@@ -1,0 +1,105 @@
+.author-books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    }
+    
+    .author-book {
+    width: calc(250%); /* 60px is the total value of the left and right margins */
+    margin: 0 10px 30px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 350px;
+    background-color: white;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    animation-name: fadeInUp;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    }
+    
+    .author-book:last-child {
+    margin-right: 0;
+    }
+    
+    .author-book-cover {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    }
+    
+    .author-book-details {
+    text-align: center;
+    margin: 20px;
+    }
+    
+    .author-book-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #246c8e;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    }
+    
+    .author-book-category {
+    font-size: 18px;
+    font-weight: bold;
+    color: #eb594c;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    }
+    
+    .author-book-brief {
+    font-size: 14px;
+    color: black;
+    margin-top: 10px;
+    }
+    
+    /* Define the animation */
+    @keyframes fadeInUp {
+    from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    }
+    
+    to {
+    opacity: 1;
+    transform: none;
+    }
+    }
+    
+    @media (max-width: 1200px) {
+    .author-book {
+    width: calc((100% - 50px) / 3); /* 50px is the total value of the left and right margins */
+    margin: 0 10px 30px 10px;
+    }
+    
+    .author-book:last-child {
+    margin-right: 10px;
+    }
+    
+    .author-books-container {
+    justify-content: center;
+    }
+    }
+    
+    @media (max-width: 768px) {
+    .author-book {
+    width: calc((100% - 30px) / 2); /* 30px is the total value of the left and right margins */
+    margin: 0 10px 30px 10px;
+    }
+    
+    .author-book:last-child {
+    margin-right: 10px;
+    }
+    
+    .author-books-container {
+    justify-content: center;
+    }
+    }

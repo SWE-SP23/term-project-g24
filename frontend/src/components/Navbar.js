@@ -71,6 +71,9 @@ function Navbar({ loggedIn, onLogout }) {
       searchTerm.name="";
       searchTerm.author_name="";
       setIsExpanded(false);
+      setName("");
+      setAuthorName("");
+      setCategory("All");
     } catch (error) {
       console.log(error);
     }
