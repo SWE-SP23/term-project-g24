@@ -6,19 +6,34 @@ var mongoose = require('mongoose'),
 //get all books in user.books
 
 exports.get_all_books = async function (req, res) {
-  try {
+  
     const token = req.headers.authorization;
-    console.log(token);
-    const decoded = jwt.verify(token, "RESTFULAPIs");
+    // console.log(token);
+
+    const decoded =0;
+    try{
+      decoded = jwt.verify(token, "RESTFULAPIs");
+    } 
+    catch(JsonWebTokenError){
+      res.status(500).json({ message: JsonWebTokenError.message });
+    }
+    console.log("hayam:",decoded);
     const userId = decoded._id;
     console.log(userId); // prints "1234567890"
-    const user = await User.findById(userId).populate('books');
+    const u = await User.findById(userId);
+    if (!u) {
+           console.log(u);
 
-    if (!user) {
-      return res.status(404).json({ message: `User with id ${req.params.userId} not found` });
+      return res.status(404).json({ message: `User not found` });
     }
+    try {
+   const user = u.populate('books');
+   
+    console.log('user books',user.books);
     const bookIds = user.books.map((book) => book._id);
+    console.log(bookIds);
     const books = await Book.find({ _id: { $in: bookIds } });
+    console.log('books',books);
     res.status(200).json({ message: 'Books added to user', books: books });
 
   } catch (error) {
@@ -29,26 +44,19 @@ exports.get_all_books = async function (req, res) {
 
 exports.addToBooks = async function (req, res) {
   try {
-    console.log("request body: ", req.body);
     const token = req.headers.authorization;
     console.log(token);
     const decoded = jwt.verify(token, "RESTFULAPIs");
-    console.log("token verified");
     const userId = decoded._id;
     console.log(userId); // prints "1234567890"
     const user = await User.findById({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: `User with id ${userId} not found` });
     }
-    else
-    console.log("user found");
     const book = await Book.findById({ _id: new mongoose.Types.ObjectId( req.body.bookId) });
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
-    else
-    console.log("book found");
-
     //if the book is not in the user's books add the book to the user's book array 
     if (!user.books.some((bookItem) => bookItem._id.toString() === book._id.toString())) {
       user.books.push(book);
