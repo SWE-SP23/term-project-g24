@@ -77,7 +77,7 @@ function Navbar({ loggedIn, onLogout }) {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
-        <img src={logo} alt="Laura's Library" style={{ width: "95px", height: "61px" }} />
+        Bookscape{/* <img src={logo} alt="Laura's Library" style={{ width: "95px", height: "61px" }} /> */}
       </Link>
       <div className="navbar-btn-box">
         <Link to="/" className="navbar-btn">
