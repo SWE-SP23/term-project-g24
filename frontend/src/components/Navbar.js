@@ -14,7 +14,6 @@ function Navbar({ loggedIn, onLogout }) {
   const [name, setName] = useState("");
   const [author_name, setAuthorName] = useState("");
   const [category, setCategory] = useState("All");
-  const [sortFilter, setSortFilter] = useState("Latest");
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSignOut = () => {
@@ -42,10 +41,6 @@ function Navbar({ loggedIn, onLogout }) {
     }
   };
 
-  const handleSortFilterChange = (event) => {
-    setSortFilter(event.target.value);
-  };
-
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
     setSearchResults([]); // clear searchResults state
@@ -53,7 +48,6 @@ function Navbar({ loggedIn, onLogout }) {
       name,
       author_name,
       category,
-      // sortFilter,
     };
     try {
       if(searchTerm.category==="All") searchTerm.category = "";
@@ -71,6 +65,9 @@ function Navbar({ loggedIn, onLogout }) {
       searchTerm.name="";
       searchTerm.author_name="";
       setIsExpanded(false);
+      setName("");
+      setAuthorName("");
+      setCategory("All");
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +77,7 @@ function Navbar({ loggedIn, onLogout }) {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
-        <img src={logo} alt="Laura's Library" style={{ width: "95px", height: "61px" }} />
+        Bookscape{/* <img src={logo} alt="Laura's Library" style={{ width: "95px", height: "61px" }} /> */}
       </Link>
       <div className="navbar-btn-box">
         <Link to="/" className="navbar-btn">
@@ -118,13 +115,6 @@ function Navbar({ loggedIn, onLogout }) {
                     <option value="Action">Action</option>
                     <option value="Comedy">Comedy</option>
                     <option value="Romance">Romance</option>
-                  </select>
-                </div>
-                <div className="navbar-filter">
-                  <select value={sortFilter} onChange={handleSortFilterChange}>
-                    <option value="Latest">Latest</option>
-                    <option value="A-Z">A-Z</option>
-                    <option value="Z-A">Z-A</option>
                   </select>
                 </div>
               </div>

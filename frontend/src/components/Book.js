@@ -28,6 +28,7 @@ function Book() {
     console.log(headers);
     try {
       await axios.post('http://localhost:4000/addBook', data, { headers });
+      document.getElementById("errAdd").innerHTML = "Book added successfully";
     } catch (error) {
       console.error('Error:', error);
       // Handle the error here, such as displaying an error message to the user

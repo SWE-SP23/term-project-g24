@@ -21,7 +21,15 @@ body {
   display: inline-flexbox;
   float: left;
   margin-left: 30px;
+  margin-top: 30px;
   border: none;
+  font-family: "Campton", sans-serif;
+  /* margin: 0; */
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 24px;
+  color: #eb594c;
+  text-decoration: none;
 }
 
 .navbar-btn-box {

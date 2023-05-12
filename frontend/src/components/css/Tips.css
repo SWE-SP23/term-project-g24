@@ -1,0 +1,62 @@
+/* Tips Section */
+.tips {
+    background-color: #f7f7f7;
+    padding: 50px 0;
+  }
+  
+  .tips h2 {
+    font-size: 36px;
+    color: #246c8e;
+    margin-bottom: 30px;
+  }
+  
+  .text {
+    font-family: "Campton", sans-serif;
+    color: #246c8e;
+    font-size: 24px;
+    font-style: italic;
+    margin: 5% 5%;
+    animation-name: fadeInUp;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  .text li {
+    font-size: 28px;
+    margin: 10px 0;
+    transition: font-size 0.3s ease-in-out;
+  }
+  
+  .text li:hover {
+    font-size: 32px;
+  }
+  
+  @media (max-width: 768px) {
+    .tips h2 {
+      font-size: 24px;
+    }
+  
+    .text {
+      font-size: 20px;
+    }
+  
+    .text li {
+      font-size: 24px;
+    }
+  
+    .text li:hover {
+      font-size: 28px;
+    }
+  }

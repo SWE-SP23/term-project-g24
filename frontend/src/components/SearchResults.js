@@ -31,17 +31,22 @@ function SearchResults({ searchResults }) {
 
   const handleResultClick = (result) => {
     const route = result.icon ? "/author" : "/book";
-    const data = result.icon ? result : { book: result };
+    const data = result.icon ? { author: result} : { book: result };
     navigate(route, { state: data });
   };
 
   useEffect(() => {
     const getAuthorNames = async () => {
-      const authorIds = currentResults.map((result) => result.author_id);
-      const requests = authorIds.map((id) => axios.post(`http://localhost:4000/author/`, { _id: id }));
-      const responses = await Promise.all(requests);
-      const names = responses.map((response) => response.data.name);
-      setAuthorNames(names);
+      const bookResults = currentResults.filter(result => !result.icon);
+      if (bookResults.length > 0) {
+        const authorIds = bookResults.map((result) => result.author_id);
+        const requests = authorIds.map((id) => axios.post(`http://localhost:4000/author/`, { _id: id }));
+        const responses = await Promise.all(requests);
+        const names = responses.map((response) => response.data.name);
+        setAuthorNames(names);
+      } else {
+        setAuthorNames([]);
+      }
     };
     getAuthorNames();
   }, [currentResults]);

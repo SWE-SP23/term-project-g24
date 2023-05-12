@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #246c8e   ;
+  background-color: #246c8e;
 }
 
 .form {
@@ -16,6 +16,22 @@
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  animation-name: fadeInDown;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+/* Define the animation */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .form-container {
@@ -105,5 +121,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
-
-/* background: linear-gradient(90deg, rgba(46,194,111,1) 0%, rgba(118,184,82,1) 50%); */

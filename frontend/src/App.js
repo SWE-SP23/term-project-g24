@@ -6,7 +6,7 @@ import Book from "./components/Book";
 import Author from "./components/Author";
 import SearchResults from "./components/SearchResults";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Tips from "./components/Tips";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -44,14 +44,14 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           {/* Add the Book route */}
           <Route path="/book" element={<Book />} />
-          <Route path="/author/:id" element={<Author />} />
+          <Route path="/author" element={<Author />} />
           {/* Pass the searchResults to the SearchResults component */}
           <Route path="/search" element={<SearchResults searchResults={searchResults} />} />
           <Route path="/tips" element={<Tips />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleLogin={handleLogin} />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </div>
   );
