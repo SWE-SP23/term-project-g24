@@ -21,7 +21,7 @@ describe('Controller functions', () => {
     __v: 0
   };
   const bookData = {
-    _id: new mongoose.Types.ObjectId(),
+    _id: new mongoose.Types.ObjectId('645799fe34238dd728b3b2f4'),
     name: "book1",
     brief: "a book about mystery",
     cover: "http://dummyimage.com/204x100.png/cc0000/ffffff",
@@ -49,57 +49,42 @@ describe('Controller functions', () => {
     await book.save();
   });
 
-  // beforeEach(async () => {
-  //   // Create a new author object and save it to the database
-  //   const author = new Author(authorData);
-  //   await author.save();
-
-  //   // Create a new book object and save it to the database
-  //   const book = new Book(bookData);
-  //   await book.save();
-  // });
-
  // Disconnect from the Mockgoose instance
   after(async () => {
     await mongoose.connection.close();
   });
 
-  // Test case 1: get_author with valid ID
-  it('get_author should return the author if the ID is valid', done => {
+  //Test case 1: get_author with valid ID
+  it('get_author should return the author if the ID is valid', async() => {
   // Mock the request and response objects
   const req = { body: { _id: authorData._id } };
-  const res = { json: sinon.spy(callback) };
+  const res = { status: sinon.stub().returns({ json: sinon.spy() })};
+  
+  sinon.stub(Author, "findById").returns(authorData);
 
-  // Define the callback function
-  function callback(authorJson) {
-    expect(authorJson).to.deep.equal(authorData);
-    done();
-  }
+    await get_author(req, res);
 
-  // Call the function
-  get_author(req, res);
+    expect(res.status.calledOnceWith(200)).to.be.true;
+    expect(res.status().json.calledOnceWith(authorData)).to.be.true;
+
+    Author.findById.restore();
+
 });
 
- 
-  // Test case 2: get_author with invalid ID
-it('get_author should return error message if the ID is invalid', async () => {
-  // Mock the request and response objects
-  const req = { body: { _id: new mongoose.Types.ObjectId() } };
-  const res = {
-    status: sinon.stub().returnsThis(),
-    json: sinon.spy(),
-  };
 
-   function callback(errorMsg) {
-    expect(errorMsg).to.deep.equal({ message: 'bb author ID' });
-    done();
-  }
-  // Call the function and assert that a 400 status code is returned
-  const msg = await get_author(req, res);
-  console.log('msg: ',msg);
-  // expect(res.status.calledWith(400)).to.be.true;
-  // expect(res.json.calledOnceWith({ message: 'Invalid author ID' })).to.be.true;
-});
+  // Test case 2: get_author with non existent ID
+  it('get_author should return error message if the ID non existent', async () => {
+    // Mock the request and response objects
+    const req = { body: { _id: new mongoose.Types.ObjectId('64a7976cfc13ae55546010c5') } };
+    const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
+
+    const result = await get_author(req, res);
+
+    expect(res.status.calledOnceWith(404)).to.be.true;
+    expect(
+      res.status().json.calledOnceWith({ message: "Author not found" })
+    ).to.be.true;
+  });
 
   // // Test case 3: add_comment with valid data
   // it('add_comment should add a comment to the book and return the comment', async () => {
@@ -135,53 +120,137 @@ it('get_author should return error message if the ID is invalid', async () => {
   //   expect(res.json.calledOnceWith({ message: 'Invalid book ID' })).to.be.true;
   // });
 
-  // // Test case 5: get_book with valid ID
+  // Test case 5: get_book with valid ID
   // it('get_book should return the book and author data if the ID is valid', async () => {
-  //   // Mock the request and response objects
-  //   const req = { body: { _id: 'validID' } };
-  //   const res = { json: sinon.spy() };
-
-  //   // Mock the Book.aggregate method to return a sample result
-  //   const aggregateStub = sinon.stub(Book, 'aggregate').resolves([{ _id: 'validID', author_data: [author] }]);
-
-  //   // Call the function and assert that the book and author data are returned
-  //   await get_book(req, res);
-  //   expect(aggregateStub.calledOnceWith([
-  //     { $match: { _id: sinon.match.instanceOf(mongoose.Types.ObjectId).and(sinon.match.has('toString', 'validID')) } },
+  //   const req = { body: { _id: new mongoose.Types.ObjectId('645799fe34238dd728b3b2f4') } };
+  //   const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
+  //   const book = {
+  //       _id: new mongoose.Types.ObjectId("645799fe34238dd728b3b2f4"),
+  //       name: "book1",
+  //       brief: "a book about mystery",
+  //       cover: "http://dummyimage.com/204x100.png/cc0000/ffffff",
+  //       category: "mystery",
+  //       author_id: "6457976cfc13ae55546010ca",
+  //       reviews: [
+  //           {
+  //               "64514b9fd8da0cc49ab4c2e6": "good"
+  //           }]
+  //   };
+  //   const author = {
+  //       _id: "6457976cfc13ae55546010ca",
+  //       name: "部落格",
+  //       bio: " aspiring chinese writer",
+  //       icon: "http://dummyimage.com/173x100.png/ff4444/ffffff",
+  //       books: [
+  //           "645799fe34238dd728b3b2f4"
+  //       ]
+  //   };
+  //   const aggregateStub = sinon.stub().returnsThis();
+  //   const matchStub = sinon.stub().resolves([book]);
+  //   const lookupStub = sinon.stub().resolves([{ author_data: [author] }]);
+  //   const expectedResponse = [
   //     {
-  //       $lookup: {
-  //         from: 'authors',
-  //         localField: 'author_id',
-  //         foreignField: '_id',
-  //         as: 'author_data'
-  //       }
-  //     }
-  //   ])).to.be.true;
-  //   expect(res.json.calledOnceWith([{ _id: 'validID', author_data: [author] }])).to.be.true;
+  //      _id: new mongoose.Types.ObjectId("645799fe34238dd728b3b2f4"),
+  //       cover: "http://dummyimage.com/204x100.png/cc0000/ffffff",
+  //       name: "book1",
+  //       author_id: new mongoose.Types.ObjectId("6457976cfc13ae55546010ca"),
+  //       brief: "a book about mystery",
+  //       reviews: [
+  //           {
+  //               user:"64514b9fd8da0cc49ab4c2e6",
+  //               user_name:"manar",
+  //               body: "good"
+  //           }
+  //       ],
+  //       __v: 0,
+  //       author_data: [
+            
+  //              new Author(author)
+            
+  //       ]
+  //     },
+  //   ];
 
-  //   // Restore the stubbed method
-  //   aggregateStub.restore();
+  //   // const mongoose = {
+  //   //   Types: {
+  //   //     ObjectId: sinon.stub().returns("645799fe34238dd728b3b2f4"),
+  //   //   },
+  //   // };
+
+  //   const Book = {
+  //     aggregate: aggregateStub,
+  //   };
+
+  //   aggregateStub.withArgs(matchStub).returnsThis();
+  //   aggregateStub.withArgs(lookupStub).resolves(expectedResponse);
+
+  //   const answer = await get_book(req, res, mongoose, Book);
+  //   console.log('answer:', answer);
+  //   console.log('expected;',expectedResponse);
+  //   console.log('status',res.status);
+  //   expect(res.status.calledOnceWith(200)).to.be.true;
+  //   expect(res.status().json.calledOnceWith(expectedResponse)).to.be.true;
+ 
   // });
 
-  // // Test case 6: get_author_books with valid data
-  // it('get_author_books should return the books with the given IDs', async () => {
-  //   // Mock the request and response objects
-  //   const req = { body: { author_id: 'authorId123', author_books: ['bookId1', 'bookId2'] } };
-  //   const res = { json: sinon.spy() };
 
-  //   // Mock the Book.aggregate method to return a sample result
-  //   const aggregateStub = sinon.stub(Book, 'aggregate').resolves([{ _id: 'bookId1' }, { _id: 'bookId2' }]);
+  // Test case 6: get_author_books with valid data
+//   it('get_author_books should return the books with the given IDs', async () => {
+//   // Create sample request and response objects
+//   const authorId = new mongoose.Types.ObjectId('6457976cfc13ae55546010ce');
+//   const bookIds = ['64579a6d34238dd728b3b2f8'];
+//   const req = { body: { author_id: authorId, author_books: bookIds } };
+//   const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
 
-  //   // Call the function and assert that the books are returned
-  //   await get_author_books(req, res);
-  //   expect(aggregateStub.calledOnceWith([
-  //     { $match: { _id: { $in: ['bookId1', 'bookId2'].map(id => new mongoose.Types.ObjectId(id)) } } }
-  //   ])).to.be.true;
-  //   expect(res.json.calledOnceWith([{ _id: 'bookId1' }, { _id: 'bookId2' }])).to.be.true;
+//   // Mock the Book.aggregate method to return a sample result
+//   const expectedResult = [
+//     {
+//       "_id": "64579a6d34238dd728b3b2f8",
+//       "name": "book3",
+//       "brief": "brief3",
+//       "cover": "http://dummyimage.com/160x100.png/dddddd/000000",
+//       "category": "romance",
+//       "author_id": "6457976cfc13ae55546010ce",
+//       "reviews": [
+//         {
+//           user: "645ad063b06625ff67507a48",
+//           user_name: "tester",
+//           body: "very bad",
+//           date: "2023-05-10T01:02:02.404Z",
+//           _id: "645aed0af8e63134c8c7e63f"
+//         },
+//         {
+//           user: "645ad063b06625ff67507a48",
+//           user_name: "tester",
+//           body: "very bad",
+//           date: "2023-05-10T01:02:28.491Z",
+//           _id: "645aed244c3b1b4652331b27"
+//         },
+//         {
+//           user: "645ad063b06625ff67507a48",
+//           user_name: "tester",
+//           body: "very good",
+//           date: "2023-05-10T01:03:09.412Z",
+//           _id: "645aed4d4c3b1b4652331b2e"
+//         }
+//       ],
+//       "__v": 3
+//     }
+//   ];
+//   const aggregateStub = sinon.stub(Book, 'aggregate').returns({ exec: sinon.stub().resolves(expectedResult) });
 
-  //   // Restore the stubbed method
-  //   aggregateStub.restore();
-  // });
+//   // Call the function and assert that the Book.aggregate method is called with the correct arguments
+//   const r = await get_author_books(req, res);
+//   // expect(aggregateStub.calledOnceWith([{ $match: { _id: { $in: bookIds.map(id => new mongoose.Types.ObjectId(id)) } } }])).to.be.true;
+
+//   // Assert that the response status and JSON method are called with the expected result
+//   console.log(r);
+//   expect(res.status.calledOnceWith(200)).to.be.true;
+//   expect(res.status().json.calledOnceWith(expectedResult)).to.be.true;
+
+//   // Restore the stubbed methods
+//   aggregateStub.restore();
+// });
 
   // // Test case 7: search_by_parameter with name and category
   // it('search_by_parameter should return books with the given name and category', async () => {
@@ -247,3 +316,4 @@ it('get_author should return error message if the ID is invalid', async () => {
   //   aggregateStub.restore();
   // });
 });
+
