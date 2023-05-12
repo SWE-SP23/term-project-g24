@@ -4,86 +4,112 @@ const chai = require('chai');
 const expect = chai.expect;
 const User = require('../Models/UserModel');
 const Book = require('../Models/bookModel');
-const { get_all_books} = require('../Controllers/UserController');
+const Author = require('../Models/authorModel');
 const jwt = require('jsonwebtoken');
 const Mockgoose = require('mockgoose').Mockgoose;
 const mockgoose = new Mockgoose(mongoose);
-
+const { get_all_books } = require('../Controllers/UserpageController');
+// 
 describe('Controller functions', () => {
-  // Define test data
-  const user = {
-     _id: new mongoose.Types.ObjectId("645ad063b06625ff67507a48"),
-    fullName: 'tester',
-    email:'test@mail.com',
-    password:"1234",
-    books: null,
-    __v: 0
-  };
-  const bookData = {
-    _id: new mongoose.Types.ObjectId(),
-    name: "book1",
-    brief: "a book about mystery",
-    cover: "http://dummyimage.com/204x100.png/cc0000/ffffff",
-    category: "mystery",
-    author_id: "6457976cfc13ae55546010ca",
-    reviews: [
-      {
-        user: "64514b9fd8da0cc49ab4c2e6",
-        body: "good"
-      }
-    ]
-  };
-  const token = jwt.sign({ _id: 'userId123', fullName: 'John Doe' }, 'RESTFULAPIs');
   
+   // Define test data
+      const userData = {
+        _id: '645ad063b06625ff67507a48',
+        fullName: 'tester',
+        email: 'test@mail.com',
+        password: '1234',
+        books: [ '645799fe34238dd728b3b2f4' ],
+      };
+      const bookData = {
+        _id: '645799fe34238dd728b3b2f4',
+        name: 'book1',
+        brief: 'a book about mystery',
+        cover: 'http://dummyimage.com/204x100.png/cc0000/ffffff',
+        category: 'mystery',
+        author_id: '6457976cfc13ae55546010ca',
+        reviews: [
+          {
+            user: '64514b9fd8da0cc49ab4c2e6',
+            body: 'good',
+          },
+        ],
+      };
+      const token = jwt.sign({ email: userData.email, fullName: userData.fullName, _id: userData._id}, 'RESTFULAPIs');
+      
+
   // Connect to the Mockgoose instance
   before(async () => {
+    // this.timeout(5000);
     await mockgoose.prepareStorage();
-    await mongoose.connect('mongodb://localhost:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true });
+    await  mongoose.connect('mongodb://localhost:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true });
     // Create a new author object and save it to the database
-    const us = new User(user);
-    await us.save();
+    const user = new User(userData);
+    await user.save();
 
     // Create a new book object and save it to the database
     const book = new Book(bookData);
     await book.save();
   });
 
- // Disconnect from the Mockgoose instance
+  // Disconnect from the Mockgoose instance
   after(async () => {
-    await mongoose.connection.close();
+    await  mongoose.connection.close();
   });
 
-  //Test case 1: get_author with valid ID
-  it('get_all_books should return the author if the ID is valid', async() => {
-  // Mock the request and response objects
-  const req = { body: { _id: user._id } };
-  const res = { status: sinon.stub().returns({ json: sinon.spy() })};
-  
-  sinon.stub(User, "findById").returns(user);
+  // Test case 1: get_all_books should return books added to the user
+   it('should return the books added by the user', async () => {
+     const req = {
+        headers: {
+          authorization: token,
+        },
+        params: {
+          userId: userData._id,
+        },
+      };
+      const res = {
+        status: sinon.stub().returns({
+          json: sinon.stub(),
+        }),
+      };
+      // Define the expected result
+      const expectedResult = {
+        status: 200,
+        data: {
+          message: 'Books added to user',
+          books: [ new mongoose.Types.ObjectId('645799fe34238dd728b3b2f4') ],
+        },
+      };
+      // Mock the User and Book models to return the test data
+      sinon.stub(User, 'findById').returns({
+        populate: sinon.stub().returns(userData),
+      });
+      sinon.stub(Book, 'find').returns([ bookData ]);
+      // Call the function with the test data
+      await get_all_books(req, res);
+      // Assert that the response matches the expected result
+      expect(res.status.calledWith(expectedResult.status)).to.be.true;
+
+      // Restore the stubbed methods
+      User.findById.restore();
+      Book.find.restore();
+    });
+
+//   // Test case 2: get_all_books should return User found message if user exists
+  it('should return token invalid if token corrupted', async () => {
+    const t = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5jb20iLCJmdWxsTmFtZSI6InRlc3RlciIsIl9pZCI6IjY0NWFkMDYzYjA2NjI1ZmY2NzUwN2E0OCIsImlhdCI6MTY4Mzg0NTgyNn0.Fr7MeHquWAT6Iyy2my1ITkei9aXXnwBcuOufYjyKwqp'
+    const req = {
+      headers: { authorization: t },
+    };
+   const res = { status: sinon.stub().returns({
+          json: sinon.stub(),
+        }),};
+    
+    sinon.stub(User, "findById").returns();
 
     await get_all_books(req, res);
 
-    expect(res.status.calledOnceWith(200)).to.be.true;
-    expect(res.status().json.calledOnceWith(user)).to.be.true;
-
-    User.findById.restore();
-
-});
-
-
-  // Test case 2: get_author with non existent ID
-  it('get_all_books should return error message if the ID non existent', async () => {
-    // Mock the request and response objects
-    const req = { body: { _id: new mongoose.Types.ObjectId('64a7976cfc13ae55546010c5') } };
-    const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-
-    const result = await get_all_books(req, res);
-
-console.log('debug 1');
-    expect(res.status.calledOnceWith(404)).to.be.true;
-    expect(
-      res.status().json.calledOnceWith({ message: "user not found" })
-    ).to.be.true;
-    console.log('debug 2');
+    expect(res.status.calledWith(500)).to.be.true;
   });
+
+
 });
