@@ -72,7 +72,7 @@ const Profile = () => {
             <div className="book-info">
               <div className="book-title" onClick={() => handleBookClick(book)}>{book.name}</div>
               <div className="book-genre">{book.category}</div>
-              <div className="book-author" onClick={() => navigate('/author', { state: { author: book.author_id } })}>Author: {authorNames[book.author_id]}</div>
+              <div className="book-author">Author: {authorNames[book.author_id]}</div>
               <div className="book-brief">{book.brief}</div>
               <div className="book-reviews">Reviews: {book.reviews.length}</div>
               <button className="remove-button" onClick={() => removeBook(book._id)}>Remove</button>
