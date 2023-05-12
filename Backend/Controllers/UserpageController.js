@@ -29,19 +29,26 @@ exports.get_all_books = async function (req, res) {
 
 exports.addToBooks = async function (req, res) {
   try {
-    const token = req.body.authorization;
+    console.log("request body: ", req.body);
+    const token = req.headers.authorization;
     console.log(token);
     const decoded = jwt.verify(token, "RESTFULAPIs");
+    console.log("token verified");
     const userId = decoded._id;
     console.log(userId); // prints "1234567890"
     const user = await User.findById({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: `User with id ${userId} not found` });
     }
+    else
+    console.log("user found");
     const book = await Book.findById({ _id: new mongoose.Types.ObjectId( req.body.bookId) });
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
+    else
+    console.log("book found");
+
     //if the book is not in the user's books add the book to the user's book array 
     if (!user.books.some((bookItem) => bookItem._id.toString() === book._id.toString())) {
       user.books.push(book);

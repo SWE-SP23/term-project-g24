@@ -8,9 +8,10 @@ function Book() {
   const book = location.state.book;
   const [comment, setComment] = useState('');
   const [authorName, setAuthorName] = useState('');
+  const token = localStorage.getItem('token');
+  const isLoggedIn = Boolean(token);
 
   const addComment = async () => {
-    const token = localStorage.getItem('token');
     const headers = { Authorization: `${token}` };
 
     const data = { _id: book._id, body: comment };
@@ -20,15 +21,18 @@ function Book() {
   };
 
   const addBook = async () => {
-    const token = localStorage.getItem('token');
-    const headers = {
-      authorization: `${token}`
-    };
+    const headers = { authorization: token };
 
     const data = { bookId: book._id };
     console.log(data);
     console.log(headers);
-    await axios.post('http://localhost:4000/addBook', data, { headers });
+    try {
+      await axios.post('http://localhost:4000/addBook', data, { headers });
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle the error here, such as displaying an error message to the user
+      document.getElementById("errAdd").innerHTML = "You already have this book in your library";
+    }
   };
 
   const reviews = book.reviews || [];
@@ -60,27 +64,36 @@ function Book() {
           <h2 className="book-title">{book.name}</h2>
           <p className="book-author">Author: {authorName}</p>
           <p className="book-brief">{book.brief}</p>
-          <button className="book-container" onClick={addBook}>Add to my books</button>
-          <div className="comment-container">
-            <br/><br/><br/><br/>
-            <h3>Add a comment:</h3>
-            <form className="comment-form" onSubmit={(e) => { e.preventDefault(); addComment(); }}>
-              <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Enter your comment" />
-              <button type="submit">Submit</button>
-            </form>
-            <h3>Comments:</h3>
-            <ul className="comment-list">
-              {reviews.map((review, index) => (
-                <li key={index} className="comment-item">
-                  <p className="comment-user">{review.user_name}</p>
-                  <p className="comment-body">{review.body}</p>
-                  <p className="comment-date"> {new Date(review.date).toLocaleDateString()}</p>
-                </li>
-              ))}
-            </ul>
-            
-            <br/><br/><br/><br/><br/><br/><br/><br/>
-          </div>
+          {isLoggedIn && (
+            <>
+              <button className="book-container" onClick={addBook}>Add to my books</button>
+              <div id="errAdd"></div>
+            </>
+          )}
+          {isLoggedIn && (
+            <div className="comment-container">
+              <br/><br/><br/><br/>
+              <h3>Add a comment:</h3>
+              <form className="comment-form" onSubmit={(e) => { e.preventDefault(); addComment(); }}>
+                <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Enter your comment" />
+                <button type="submit">Submit</button>
+              </form>
+              <br/><br/>
+            </div>
+          )}
+          <h3>Comments:</h3>
+          <ul className="comment-list">
+            {reviews.map((review, index) => (
+              <li key={index} className="comment-item">
+                <p className="comment-user">{review.user_name}</p>
+                <p className="comment-body">{review.body}</p>
+                <p className="comment-date"> {new Date(review.date).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+          {!isLoggedIn && (
+            <p>Please log in to add a comment</p>
+          )}
         </div>
       </div>
     </div>
