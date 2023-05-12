@@ -29,7 +29,7 @@ exports.get_all_books = async function (req, res) {
 
 exports.addToBooks = async function (req, res) {
   try {
-    const token = req.headers.authorization;
+    const token = req.body.authorization;
     console.log(token);
     const decoded = jwt.verify(token, "RESTFULAPIs");
     const userId = decoded._id;

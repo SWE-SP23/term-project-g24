@@ -2,7 +2,7 @@ module.exports = function(app) {
     var displayHandlers = require('../Controllers/DisplayController');
     // List Routes
     app.route('/author')
-        .get(displayHandlers.get_author);
+        .post(displayHandlers.get_author);
     app.route('/book')
         .get(displayHandlers.get_book);
     app.route('/search_by_parameter')

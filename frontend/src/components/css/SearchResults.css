@@ -2,6 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-top: 2%;
+  /* add overflow-y: auto to add a vertical scrollbar to the container */
+  overflow-y: auto;
+  /* set the height of the container to fill the available space */
+  height: calc(100vh - 250px);  
 }
 
 .book-container, .author-container {
@@ -10,7 +15,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 450px;
+  height: 350px;
+  margin-top: 2%;
 }
 
 .book-cover, .author-icon {

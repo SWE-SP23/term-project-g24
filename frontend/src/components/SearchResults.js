@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./css/SearchResults.css";
 
 function SearchResults({ searchResults }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage] = useState(9);
+  const [authorNames, setAuthorNames] = useState([]);
   const navigate = useNavigate();
 
   // Calculate the index of the first and last result on the current page
@@ -34,8 +36,15 @@ function SearchResults({ searchResults }) {
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchResults]);
+    const getAuthorNames = async () => {
+      const authorIds = currentResults.map((result) => result.author_id);
+      const requests = authorIds.map((id) => axios.post(`http://localhost:4000/author/`, { _id: id }));
+      const responses = await Promise.all(requests);
+      const names = responses.map((response) => response.data.name);
+      setAuthorNames(names);
+    };
+    getAuthorNames();
+  }, [currentResults]);
 
   return (
     <div>
@@ -48,7 +57,9 @@ function SearchResults({ searchResults }) {
         <br />
       </p>
       <div className="results-container">
-        {currentResults.map((result) => (
+      <p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
+
+        {currentResults.map((result, index) => (
           <div
             key={result._id}
             className={result.icon ? "author-container" : "book-container"}
@@ -67,7 +78,7 @@ function SearchResults({ searchResults }) {
                 {result.name}
               </div>
               {!result.icon && <div className="book-genre">{result.category}</div>}
-              {!result.icon && <div className="book-author">{result.author_name}</div>}
+              {!result.icon && <div className="book-author">Author: {authorNames[index]}</div>}
               {result.icon && <div className="author-bio">{result.bio}</div>}
             </div>
           </div>
@@ -86,7 +97,16 @@ function SearchResults({ searchResults }) {
             {page}
           </div>
         ))}
+
       </div>
+      <p>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </p>
     </div>
   );
 }
