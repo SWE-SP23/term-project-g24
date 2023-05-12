@@ -42,6 +42,20 @@ const Profile = () => {
     fetchAuthorNames();
   }, [books]);
 
+  const removeBook = async (bookId) => {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `${token}` };
+
+    const data = { bookId };
+    try {
+      await axios.post('http://localhost:4000/removeBook', data, { headers });
+      setBooks(books.filter(book => book._id !== bookId)); // remove the book from the local state
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle the error here, such as displaying an error message to the user
+    }
+  };
+
   return (
     <div className="profile-page">
       {/* <p><br/><br/><br/><br/></p> */}
@@ -63,6 +77,7 @@ const Profile = () => {
               </Link>
               <div className="book-brief">{book.brief}</div>
               <div className="book-reviews">Reviews: {book.reviews.length}</div>
+              <button className="remove-button" onClick={() => removeBook(book._id)}>Remove</button>
             </div>
           </div>
         ))}
