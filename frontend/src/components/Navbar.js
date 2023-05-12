@@ -112,9 +112,9 @@ function Navbar({ loggedIn, onLogout }) {
                 <div className="navbar-filter">
                   <select value={category} onChange={handlecategoryChange}>
                     <option value="All">All Genres</option>
-                    <option value="Action">Action</option>
-                    <option value="Comedy">Comedy</option>
-                    <option value="Romance">Romance</option>
+                    <option value="mystery">mystery</option>
+                    <option value="romance">romance</option>
+                    <option value="horror">horror</option>
                   </select>
                 </div>
               </div>

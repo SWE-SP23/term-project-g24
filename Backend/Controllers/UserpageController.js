@@ -6,34 +6,19 @@ var mongoose = require('mongoose'),
 //get all books in user.books
 
 exports.get_all_books = async function (req, res) {
-  
+  try {
     const token = req.headers.authorization;
-    // console.log(token);
-
-    const decoded =0;
-    try{
-      decoded = jwt.verify(token, "RESTFULAPIs");
-    } 
-    catch(JsonWebTokenError){
-      res.status(500).json({ message: JsonWebTokenError.message });
-    }
-    console.log("hayam:",decoded);
+    console.log(token);
+    const decoded = jwt.verify(token, "RESTFULAPIs");
     const userId = decoded._id;
     console.log(userId); // prints "1234567890"
-    const u = await User.findById(userId);
-    if (!u) {
-           console.log(u);
+    const user = await User.findById(userId).populate('books');
 
-      return res.status(404).json({ message: `User not found` });
+    if (!user) {
+      return res.status(404).json({ message: `User with id ${req.params.userId} not found` });
     }
-    try {
-   const user = u.populate('books');
-   
-    console.log('user books',user.books);
     const bookIds = user.books.map((book) => book._id);
-    console.log(bookIds);
     const books = await Book.find({ _id: { $in: bookIds } });
-    console.log('books',books);
     res.status(200).json({ message: 'Books added to user', books: books });
 
   } catch (error) {
