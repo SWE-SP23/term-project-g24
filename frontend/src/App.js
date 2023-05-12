@@ -6,7 +6,7 @@ import Book from "./components/Book";
 import Author from "./components/Author";
 import SearchResults from "./components/SearchResults";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Tips from "./components/Tips";
 import Login from "./components/Login";
 import Signup from "./components/Signup";

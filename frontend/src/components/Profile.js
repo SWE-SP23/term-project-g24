@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import "./css/profile.css";
 
 const Profile = () => {
   const [books, setBooks] = useState([]);
   const [authorNames, setAuthorNames] = useState({});
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -56,28 +57,22 @@ const Profile = () => {
       // Handle the error here, such as displaying an error message to the user
     }
   };
-  for (const book of books) {
-    console.log(book);
-  }
+
+  const handleBookClick = (book) => {
+    navigate('/book', { state: { book } });
+  };
+
   return (
     <div className="profile-page">
-      {/* <p><br/><br/><br/><br/></p> */}
-
       <h1>My Books</h1>
       <div className="results-container">
         {books.map(book => (
           <div key={book._id} className="book-container">
-            <Link to={{ pathname: "/book", state: { book } }}>
-              <img className="book-cover" src={book.cover} alt={book.name} />
-            </Link>
+            <img className="book-cover" src={book.cover} alt={book.name} onClick={() => handleBookClick(book)} />
             <div className="book-info">
-              <Link to={{ pathname: "/book", state: { book } }}>
-                <div className="book-title">{book.name}</div>
-              </Link>
+              <div className="book-title" onClick={() => handleBookClick(book)}>{book.name}</div>
               <div className="book-genre">{book.category}</div>
-              <Link to={{ pathname: "/author", state: { author: book.author_id } }}>
-                <div className="book-author">Author: {authorNames[book.author_id]}</div>
-              </Link>
+              <div className="book-author" onClick={() => navigate('/author', { state: { author: book.author_id } })}>Author: {authorNames[book.author_id]}</div>
               <div className="book-brief">{book.brief}</div>
               <div className="book-reviews">Reviews: {book.reviews.length}</div>
               <button className="remove-button" onClick={() => removeBook(book._id)}>Remove</button>
