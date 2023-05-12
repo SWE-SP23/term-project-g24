@@ -3,29 +3,29 @@ const Author = mongoose.model('author');
 const Book = mongoose.model('book'),
 jwt = require('jsonwebtoken');
 
-exports.get_author = function(req, res) {
+module.exports.get_author = async function(req, res) {
   const authorId = req.body._id;
-  console.log(authorId);
-  if (!mongoose.Types.ObjectId.isValid(authorId)) {
-    console.log('bad id');
-    return res.status(400).json({ message: 'Invalid author ID' });
+
+ if (!mongoose.Types.ObjectId.isValid(authorId)) {
+    return res.status(400).json({ message: 'Invalid author ID' ,});
   }
-  console.log('past the validation');
-  Author.findOne({_id:authorId})
-    .then(function(author) {
-      console.log('author:', author);
-      console.log('debug sentence');
-      if (!author) {
-        console.log('no id');
-        console.log(author);
-        return res.status(400).json({ message: 'There seems to be a problem fetching data about author' });
-      }
-      console.log('good id');
-      return res.json(author.toJSON());
-    }).catch(function(err) {
-      throw err;
+
+  try {
+    const author = await Author.findById(req.body._id);
+    if (!author) {
+      return res.status(404).json({
+        message: "Author not found",
+      });
+    }
+    console.log('returned:',req.body._id);
+    return res.status(200).json(author.toJSON());
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
     });
-};
+  }
+}
+
 
 exports.add_comment = async function(req,res){
     const token = req.headers.authorization;
@@ -40,7 +40,6 @@ exports.add_comment = async function(req,res){
      if (!mongoose.Types.ObjectId.isValid(req.body._id)) {
     return res.status(400).json({ message: 'Invalid book ID' });
   }
-  console.log("before query");
     const book = await Book.findById({ _id: new mongoose.Types.ObjectId(req.body._id) });
    console.log(book);
     const body = req.body.body;
@@ -55,12 +54,14 @@ exports.add_comment = async function(req,res){
     return res.status(200).json(r);
 }
 
-exports.get_book = function(req, res) {
+
+module.exports.get_book = async function(req, res) {
   const bookId = req.body._id;
   if (!mongoose.Types.ObjectId.isValid(bookId)) {
     return res.status(400).json({ message: 'Invalid book ID' });
   }
-   Book.aggregate([
+  try{
+    const result = await Book.aggregate([
      { $match: { _id:  new mongoose.Types.ObjectId(bookId) } },
     {
       $lookup: {
@@ -70,33 +71,50 @@ exports.get_book = function(req, res) {
         as: 'author_data'
       }
     }
-  ]).then(result => {
-  console.log(result);
-  return res.json(result);
-}).catch(err => {
-  console.error(err);
-  throw err;
-});
+  ]);
+
+    if(!result){
+      return res.status(404).json({
+        message: "book not found",
+      });
+    }
+
+    console.log('inside',result);
+  return res.status(200).json(result.toJSON());
+  }
+catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
 };
 
-exports.get_author_books = function(req, res) {
+module.exports.get_author_books = async function(req, res) {
   const authorId = req.body.author_id;
+  console.log(authorId);
   const bookIds = req.body.author_books;
+  console.log(bookIds);
   if (!mongoose.Types.ObjectId.isValid(authorId)) {
     return res.status(400).json({ message: 'Invalid author ID' });
   }
-   Book.aggregate([
-  { $match: { _id: { $in: bookIds.map(id => new mongoose.Types.ObjectId(id)) } } }
-]).then(result => {
-  console.log(result);
-  return res.json(result);
-}).catch(err => {
-  console.error(err);
-  throw err;
-});
+  try {
+    const result = await Book.aggregate([
+      { $match: { _id: { $in: bookIds.map(id => new mongoose.Types.ObjectId(id)) } } }
+    ]);
+    console.log('result:',result);
+    if (!result) {
+      return res.status(404).json({
+        message: "author books not found",
+      });
+    }
+    return res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
- //name category  author name
+
 exports.search_by_parameter = async function (req,res) {
   const {name,category,author_name} = req.body;
   console.log(name);
@@ -142,7 +160,7 @@ exports.search_by_parameter = async function (req,res) {
   }
 ]).then(result => {
   console.log(result);
-  return res.json(result);
+  return res.status(200).json(result);
 }).catch(err => {
   console.error(err);
   throw err;
@@ -161,19 +179,23 @@ exports.search_by_parameter = async function (req,res) {
       }
     ]).then(result => {
       console.log(result);
-      return res.json(result);
+      return res.status(200).json(result);
     }).catch(err => {
       console.error(err);
       throw err;
     }); }
   else{
-   Book.find(query)
-    .then(function(book) {
-      if (!book) {
-        return res.status(401).json({ message: 'There seems to be a problem fetching book according to given params' });
-      }
-      return res.json(book);
-    }).catch(function(err) {
+
+   try{  
+    const book = Book.find(query);
+    console.log('search book:',book);
+    if (!book) {
+      return res.status(401).json({ message: 'There seems to be a problem fetching book according to given params' });
+    }
+    return res.status(200).json(book);
+    
+   }
+    catch(err) {
       throw err;
-    });
-} }
+    }
+} };
