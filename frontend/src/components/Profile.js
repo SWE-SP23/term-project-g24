@@ -12,9 +12,11 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `${token}` };
-
+    console.log(headers);
+    console.log(token);
     axios.get('http://localhost:4000/all', { headers })
       .then(response => {
+        console.log(response);
         setBooks(response.data.books);
       })
       .catch(error => {
