@@ -1,10 +1,6 @@
-div img {
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-}
-body{
-  min-height: 100%;
+/* Set the height of the html and body elements to 100% to ensure that the footer is positioned relative to the viewport */
+html, body {
+  height: 100%;
 }
 
 .content {
@@ -14,20 +10,23 @@ body{
 }
 
 .footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  /* position the footer at the bottom of the viewport */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* set the height and background color */
+  height: 50px;
   background: #246c8e;
+  /* center the text and icons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #fff;
-  text-align: left;
-  width: 100%;
   font-size: 28px;
   font-family: "Campton", sans-serif;
   font-style: italic;
   font-weight: bolder;
-  /* center the #images element */
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .contact-us {

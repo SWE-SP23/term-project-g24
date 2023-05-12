@@ -86,9 +86,11 @@ function Navbar({ loggedIn, onLogout }) {
         <Link to="/" className="navbar-btn">
           Home
         </Link>
-        <Link to="/profile" className="navbar-btn">
-          Profile
-        </Link>
+        {loggedIn && (
+          <Link to="/profile" className="navbar-btn">
+            Profile
+          </Link>
+        )}
         <Link to="/tips" className="navbar-btn">
           Tips
         </Link>

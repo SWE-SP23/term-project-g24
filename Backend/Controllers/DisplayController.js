@@ -4,6 +4,8 @@ const Book = mongoose.model('book'),
 jwt = require('jsonwebtoken');
 
 exports.get_author = function(req, res) {
+  console.log(req);
+  console.log(req.body);
   const authorId = req.body._id;
   console.log(authorId);
   if (!mongoose.Types.ObjectId.isValid(authorId)) {
