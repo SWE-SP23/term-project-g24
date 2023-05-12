@@ -6,9 +6,9 @@ module.exports = function(app) {
     app.route('/book')
         .get(displayHandlers.get_book);
     app.route('/search_by_parameter')
-    	.post(displayHandlers.search_by_parameter);
+        .post(displayHandlers.search_by_parameter);
     app.route('/author_books')
-    	.get(displayHandlers.get_author_books);
+        .get(displayHandlers.get_author_books);
     app.route('/addreview')
-    	.post(displayHandlers.add_comment);
+        .post(displayHandlers.add_comment);
 };
