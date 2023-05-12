@@ -5,13 +5,12 @@ import "./css/profile.css";
 
 const Profile = () => {
   const [books, setBooks] = useState([]);
+  const [authorNames, setAuthorNames] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const headers = { Authorization: `${token}` };
-    console.log(token);
-    console.log(headers);
-    
+
     axios.get('http://localhost:4000/all', { headers })
       .then(response => {
         setBooks(response.data.books);
@@ -20,11 +19,32 @@ const Profile = () => {
         console.error('Error:', error);
         // Handle the error here, such as displaying an error message to the user
       });
-  }, []);
+
+    const getAuthorName = async (authorId) => {
+      const searchTerm = {
+        _id: authorId,
+      };
+      const response = await axios.post(`http://localhost:4000/author/`, searchTerm );
+      return response.data.name;
+    };
+
+    const fetchAuthorNames = async () => {
+      const newAuthorNames = {};
+      for (const book of books) {
+        if (!newAuthorNames[book.author_id]) {
+          const authorName = await getAuthorName(book.author_id);
+          newAuthorNames[book.author_id] = authorName;
+        }
+      }
+      setAuthorNames(newAuthorNames);
+    };
+
+    fetchAuthorNames();
+  }, [books]);
 
   return (
     <div className="profile-page">
-      <p><br/><br/><br/><br/></p>
+      {/* <p><br/><br/><br/><br/></p> */}
 
       <h1>My Books</h1>
       <div className="results-container">
@@ -39,7 +59,7 @@ const Profile = () => {
               </Link>
               <div className="book-genre">{book.category}</div>
               <Link to={{ pathname: "/author", state: { author: book.author_id } }}>
-                <div className="book-author">Author: {book.author_name}</div>
+                <div className="book-author">Author: {authorNames[book.author_id]}</div>
               </Link>
               <div className="book-brief">{book.brief}</div>
               <div className="book-reviews">Reviews: {book.reviews.length}</div>
